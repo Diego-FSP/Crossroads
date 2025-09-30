@@ -1,42 +1,79 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hoteles Buenos Aires</title>
-    <link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hoteles en Capital Federal</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f4f9;
+      margin: 0;
+    }
+    header {
+      background: #0077cc;
+      color: white;
+      padding: 20px;
+      text-align: center;
+    }
+    #lista-hoteles {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 20px;
+      padding: 20px;
+    }
+    .hotel {
+      background: white;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+    }
+    .hotel img {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+    }
+    .info {
+      padding: 15px;
+    }
+    .precio {
+      font-weight: bold;
+      color: #0077cc;
+    }
+  </style>
 </head>
 <body>
-    <header>
-        <h1>Hoteles en Buenos Aires (3 a 5 estrellas)</h1>
-    </header>
+  <header>
+    <h1>Hoteles en Capital Federal</h1>
+  </header>
 
-    <main class="hotel-container">
-        <!-- Hotel 1 -->
-        <div class="hotel-card">
-            <img src="hotel1.jpg" alt="Hotel Alvear">
-            <h2>Hotel Alvear</h2>
-            <p>⭐⭐⭐⭐⭐</p>
-            <p>Un hotel lujoso en el corazón de Buenos Aires, ideal para viajes de placer y negocios.</p>
-        </div>
+  <main id="lista-hoteles"></main>
 
-        <!-- Hotel 2 -->
-        <div class="hotel-card">
-            <img src="hotel2.jpg" alt="NH Buenos Aires">
-            <h2>NH Buenos Aires</h2>
-            <p>⭐⭐⭐⭐</p>
-            <p>Hotel moderno con excelente ubicación cerca de teatros y restaurantes.</p>
-        </div>
+  <script>
+    async function cargarHoteles() {
+      const res = await fetch("http://localhost:3000/hoteles");
+      const hoteles = await res.json();
 
-        <!-- Hotel 3 -->
-        <div class="hotel-card">
-            <img src="hotel3.jpg" alt="Howard Johnson">
-            <h2>Howard Johnson</h2>
-            <p>⭐⭐⭐</p>
-            <p>Confortable y accesible, perfecto para turistas que quieren explorar la ciudad.</p>
-        </div>
+      const contenedor = document.getElementById("lista-hoteles");
+      contenedor.innerHTML = "";
 
-        <!-- Puedes añadir más hoteles siguiendo el mismo formato -->
-    </main>
+      hoteles.forEach(h => {
+        const hotelDiv = document.createElement("div");
+        hotelDiv.className = "hotel";
+        hotelDiv.innerHTML = `
+          <img src="${h.imagen}" alt="${h.nombre}">
+          <div class="info">
+            <h2>${h.nombre}</h2>
+            <p>${h.descripcion}</p>
+            <p><strong>Dirección:</strong> ${h.direccion}</p>
+            <p class="precio">$${h.precio} / noche</p>
+          </div>
+        `;
+        contenedor.appendChild(hotelDiv);
+      });
+    }
+
+    cargarHoteles();
+  </script>
 </body>
 </html>
