@@ -1,3 +1,4 @@
+// server.js
 const express = require("express");
 const mysql = require("mysql2");
 const cors = require("cors");
@@ -12,9 +13,9 @@ app.use(express.json());
 // Conexión a MySQL
 const db = mysql.createConnection({
   host: "localhost",
-  user: "root",       // tu usuario de MySQL
-  password: "",       // tu contraseña de MySQL
-  database: "hoteles_caba"
+  user: "root",
+  password: "", // Cambia por tu password
+  database: "hotelesBA"
 });
 
 db.connect(err => {
@@ -25,14 +26,16 @@ db.connect(err => {
   console.log("Conectado a MySQL");
 });
 
-// Ruta para obtener todos los hoteles
+// Ruta para obtener hoteles junto con sector
 app.get("/hoteles", (req, res) => {
-  db.query("SELECT * FROM hoteles", (err, results) => {
-    if (err) {
-      res.status(500).send("Error al obtener hoteles");
-    } else {
-      res.json(results);
-    }
+  const sql = `
+    SELECT h.*, s.nombre AS sector_nombre
+    FROM hoteles h
+    LEFT JOIN sectores s ON h.sector_id = s.id
+  `;
+  db.query(sql, (err, results) => {
+    if (err) return res.status(500).send("Error al obtener hoteles");
+    res.json(results);
   });
 });
 
