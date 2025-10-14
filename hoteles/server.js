@@ -1,61 +1,63 @@
-require('dotenv').config();
 const express = require('express');
-const mysql = require('mysql2/promise');
+const mysql = require('mysql2');
+const multer = require('multer');
+const fs = require('fs');
+const path = require('path');
+const bodyParser = require('body-parser');
+
 const app = express();
-app.use(express.json());
+const port = 3000;
 
+// Configurar multer (para leer archivos desde /imagenes)
+const upload = multer({ dest: 'uploads/' });
 
-const pool = mysql.createPool({
-host: process.env.DB_HOST || 'localhost',
-user: process.env.DB_USER || 'root',
-password: process.env.DB_PASS || '',
-database: process.env.DB_NAME || 'hoteles_caba',
-waitForConnections: true,
-connectionLimit: 10,
-queueLimit: 0
+// Conexión a MySQL
+const db = mysql.createConnection({
+  host: 'localhost',
+  user: 'root',
+  password: '', // poné tu contraseña si tenés
+  database: 'hoteles_caba'
 });
 
-
-app.get('/api/hotels', async (req,res)=>{
-try{
-const q = (req.query.q||'').trim();
-const sector = (req.query.sector||'').trim();
-const sort = req.query.sort||'recommended';
-const page = parseInt(req.query.page)||1;
-const perPage = parseInt(req.query.perPage)||12;
-const offset = (page-1)*perPage;
-
-
-const where = [];
-const params = [];
-if(q){ where.push('(name LIKE ? OR description LIKE ?)'); params.push(`%${q}%`, `%${q}%`); }
-if(sector){ where.push('sector = ?'); params.push(sector); }
-const whereSQL = where.length ? ('WHERE ' + where.join(' AND ')) : '';
-
-
-let orderSQL = 'ORDER BY id LIMIT ? OFFSET ?';
-if(sort==='price_asc') orderSQL = 'ORDER BY price ASC LIMIT ? OFFSET ?';
-if(sort==='price_desc') orderSQL = 'ORDER BY price DESC LIMIT ? OFFSET ?';
-if(sort==='rating_desc') orderSQL = 'ORDER BY rating DESC LIMIT ? OFFSET ?';
-
-
-// total
-const [countRows] = await pool.query(`SELECT COUNT(*) as c FROM hotels ${whereSQL}`, params);
-const total = countRows[0].c || 0;
-
-
-// fetch
-params.push(perPage, offset);
-const [rows] = await pool.query(`SELECT id, name, sector, price, rating, stars, image FROM hotels ${whereSQL} ${orderSQL}`, params);
-
-
-res.json({ total, hotels: rows });
-}catch(e){
-console.error(e);
-res.status(500).json({ error: 'error interno' });
-}
+db.connect(err => {
+  if (err) throw err;
+  console.log('✅ Conectado a MySQL');
 });
 
+// Middleware
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
-const port = process.env.PORT || 3000;
-app.listen(port, ()=> console.log('API en http://localhost:'+port));
+// 📸 Subir hotel con imagen (guardando imagen binaria)
+app.post('/hoteles', upload.single('imagen'), (req, res) => {
+  const { nombre, sector, precio, estrellas, descripcion } = req.body;
+  const imagen = fs.readFileSync(req.file.path);
+
+  const sql = 'INSERT INTO hoteles (nombre, sector, precio, estrellas, descripcion, imagen) VALUES (?, ?, ?, ?, ?, ?)';
+  db.query(sql, [nombre, sector, precio, estrellas, descripcion, imagen], (err, result) => {
+    fs.unlinkSync(req.file.path); // borrar el archivo temporal
+    if (err) return res.status(500).send(err);
+    res.send('Hotel guardado correctamente ✅');
+  });
+});
+
+// 📤 Obtener todos los hoteles
+app.get('/hoteles', (req, res) => {
+  db.query('SELECT id, nombre, sector, precio, estrellas, descripcion FROM hoteles', (err, results) => {
+    if (err) return res.status(500).send(err);
+    res.json(results);
+  });
+});
+
+// 🖼️ Obtener una imagen específica
+app.get('/hoteles/imagen/:id', (req, res) => {
+  const id = req.params.id;
+  db.query('SELECT imagen FROM hoteles WHERE id = ?', [id], (err, results) => {
+    if (err) return res.status(500).send(err);
+    if (results.length === 0) return res.status(404).send('Imagen no encontrada');
+    res.writeHead(200, { 'Content-Type': 'image/jpeg' });
+    res.end(results[0].imagen, 'binary');
+  });
+});
+
+app.listen(port, () => console.log(`🚀 Servidor corriendo en http://localhost:${port}`));
