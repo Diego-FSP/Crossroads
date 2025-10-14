@@ -1,44 +1,61 @@
-// server.js
-const express = require("express");
-const mysql = require("mysql2");
-const cors = require("cors");
-
+require('dotenv').config();
+const express = require('express');
+const mysql = require('mysql2/promise');
 const app = express();
-const port = 3000;
-
-// Middleware
-app.use(cors());
 app.use(express.json());
 
-// Conexión a MySQL
-const db = mysql.createConnection({
-  host: "localhost",
-  user: "root",
-  password: "", // Cambia por tu password
-  database: "hotelesBA"
+
+const pool = mysql.createPool({
+host: process.env.DB_HOST || 'localhost',
+user: process.env.DB_USER || 'root',
+password: process.env.DB_PASS || '',
+database: process.env.DB_NAME || 'hoteles_caba',
+waitForConnections: true,
+connectionLimit: 10,
+queueLimit: 0
 });
 
-db.connect(err => {
-  if (err) {
-    console.error("Error de conexión:", err);
-    return;
-  }
-  console.log("Conectado a MySQL");
+
+app.get('/api/hotels', async (req,res)=>{
+try{
+const q = (req.query.q||'').trim();
+const sector = (req.query.sector||'').trim();
+const sort = req.query.sort||'recommended';
+const page = parseInt(req.query.page)||1;
+const perPage = parseInt(req.query.perPage)||12;
+const offset = (page-1)*perPage;
+
+
+const where = [];
+const params = [];
+if(q){ where.push('(name LIKE ? OR description LIKE ?)'); params.push(`%${q}%`, `%${q}%`); }
+if(sector){ where.push('sector = ?'); params.push(sector); }
+const whereSQL = where.length ? ('WHERE ' + where.join(' AND ')) : '';
+
+
+let orderSQL = 'ORDER BY id LIMIT ? OFFSET ?';
+if(sort==='price_asc') orderSQL = 'ORDER BY price ASC LIMIT ? OFFSET ?';
+if(sort==='price_desc') orderSQL = 'ORDER BY price DESC LIMIT ? OFFSET ?';
+if(sort==='rating_desc') orderSQL = 'ORDER BY rating DESC LIMIT ? OFFSET ?';
+
+
+// total
+const [countRows] = await pool.query(`SELECT COUNT(*) as c FROM hotels ${whereSQL}`, params);
+const total = countRows[0].c || 0;
+
+
+// fetch
+params.push(perPage, offset);
+const [rows] = await pool.query(`SELECT id, name, sector, price, rating, stars, image FROM hotels ${whereSQL} ${orderSQL}`, params);
+
+
+res.json({ total, hotels: rows });
+}catch(e){
+console.error(e);
+res.status(500).json({ error: 'error interno' });
+}
 });
 
-// Ruta para obtener hoteles junto con sector
-app.get("/hoteles", (req, res) => {
-  const sql = `
-    SELECT h.*, s.nombre AS sector_nombre
-    FROM hoteles h
-    LEFT JOIN sectores s ON h.sector_id = s.id
-  `;
-  db.query(sql, (err, results) => {
-    if (err) return res.status(500).send("Error al obtener hoteles");
-    res.json(results);
-  });
-});
 
-app.listen(port, () => {
-  console.log(`Servidor corriendo en http://localhost:${port}`);
-});
+const port = process.env.PORT || 3000;
+app.listen(port, ()=> console.log('API en http://localhost:'+port));

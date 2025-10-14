@@ -1,90 +1,66 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Hoteles en Capital Federal</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: #f4f4f9;
-      margin: 0;
-    }
-    header {
-      background: #0077cc;
-      color: white;
-      padding: 20px;
-      text-align: center;
-    }
-    #lista-hoteles {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-      gap: 20px;
-      padding: 20px;
-    }
-    .hotel {
-      background: white;
-      border-radius: 10px;
-      overflow: hidden;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.2);
-      transition: transform 0.2s;
-    }
-    .hotel:hover {
-      transform: scale(1.02);
-    }
-    .hotel img {
-      width: 100%;
-      height: 180px;
-      object-fit: cover;
-    }
-    .info {
-      padding: 15px;
-    }
-    .precio {
-      font-weight: bold;
-      color: #0077cc;
-    }
-  </style>
+<!doctype html>
+<title>Hoteles CABA — Descubrí tu estadía</title>
+<link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-  <header>
-    <h1>Hoteles en Capital Federal</h1>
-  </header>
+<header class="site-header">
+<div class="brand">CABA<span class="accent">Stay</span></div>
+<nav class="top-controls">
+<input id="searchInput" placeholder="Buscar hotel, barrio o palabra clave..." />
+<select id="sectorSelect">
+<option value="">Todos los barrios</option>
+<option>Palermo</option>
+<option>Recoleta</option>
+<option>San Telmo</option>
+<option>Belgrano</option>
+<option>Microcentro</option>
+<option>Puerto Madero</option>
+</select>
+<select id="sortSelect">
+<option value="recommended">Recomendados</option>
+<option value="price_asc">Precio: menor a mayor</option>
+<option value="price_desc">Precio: mayor a menor</option>
+<option value="rating_desc">Rating</option>
+</select>
+<button id="searchBtn">Buscar</button>
+</nav>
+</header>
 
-  <main id="lista-hoteles"></main>
 
-  <script>
-    async function cargarHoteles() {
-      try {
-        const res = await fetch("http://localhost:3000/hoteles");
-        const hoteles = await res.json();
+<main class="container">
+<section class="hero">
+<h1>Descubrí CABA — lujo, diseño y experiencias</h1>
+<p>300 hoteles seleccionados en 6 barrios — buscá, filtrá y encontrá la mejor opción.</p>
+</section>
 
-        const contenedor = document.getElementById("lista-hoteles");
-        contenedor.innerHTML = "";
 
-        hoteles.forEach(h => {
-          const hotelDiv = document.createElement("div");
-          hotelDiv.className = "hotel";
-          hotelDiv.innerHTML = `
-            <img src="${h.imagen}" alt="${h.nombre}" />
-            <div class="info">
-              <h2>${h.nombre}</h2>
-              <p><strong>Sector:</strong> ${h.sector_nombre || 'No definido'}</p>
-              <p>${h.descripcion}</p>
-              <p><strong>Dirección:</strong> ${h.direccion}</p>
-              <p class="precio">$${h.precio.toFixed(2)} / noche</p>
-              <p><strong>Estrellas:</strong> ${h.estrellas} ⭐</p>
-              <p><strong>Categoría:</strong> ${h.categoria}</p>
-            </div>
-          `;
-          contenedor.appendChild(hotelDiv);
-        });
-      } catch (error) {
-        console.error("Error cargando hoteles:", error);
-      }
-    }
+<section class="cards-area" id="cardsArea">
+<!-- Las tarjetas se cargan dinámicamente -->
+</section>
 
-    cargarHoteles();
-  </script>
+
+<div class="pagination" id="pagination"></div>
+</main>
+
+
+<template id="hotelCardTpl">
+<article class="hotel-card">
+<div class="media">
+<img src="" alt="hotel" />
+<div class="rating"></div>
+</div>
+<div class="card-body">
+<h3 class="hotel-name"></h3>
+<p class="hotel-sector"></p>
+<div class="meta">
+<span class="price"></span>
+<button class="viewBtn">Ver oferta</button>
+</div>
+</div>
+</article>
+</template>
+
+
+<script src="script.js"></script>
 </body>
 </html>
