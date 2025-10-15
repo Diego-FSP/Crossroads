@@ -45,7 +45,7 @@ function renderHotels(hotels){
 
 function renderPagination(){
   pagination.innerHTML = '';
-  const maxButtons = 8;
+  const apiBase = '/api';
   const start = Math.max(1, page - Math.floor(maxButtons/2));
   for(let i=start; i<=Math.min(totalPages, start + maxButtons -1); i++){
     const btn = document.createElement('button');
