@@ -7,8 +7,8 @@ require('dotenv').config();
   const conn = await mysql.createConnection({
     host: process.env.DB_HOST || 'localhost',
     user: process.env.DB_USER || 'root',
-    password: process.env.DB_PASS || '',
-    database: process.env.DB_NAME || 'hoteles_caba'
+    password: process.env.DB_PASS || 'Jhoselin712.',
+    database: process.env.DB_NAME || 'hotelesBA'
   });
 
   await conn.query(`CREATE TABLE IF NOT EXISTS hoteles (

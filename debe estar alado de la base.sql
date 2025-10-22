@@ -1,0 +1,2 @@
+USE hotelesBA;
+SHOW TABLES;
