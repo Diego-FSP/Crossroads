@@ -5,25 +5,20 @@
 ```mermaid
 erDiagram
 
-    COMUNA{
-        int idComuna PK
-        string nombre
-    }
     BARRIO{
         int idBarrio PK
-        int idComuna FK
         string nombre
     }
     HOTEL{
         int idHotel PK
         int idBarrio FK
-        int idComuna FK
         string Nombre
         string descripccion
         int CalificacionPromedio
+        string IMG
     }
     TIPO_HABITACION{
-        int idTipoHabitacion pk
+        int idTipoHabitacion PK
         int idHotel FK
         string nombre
         string descripccion
@@ -32,7 +27,7 @@ erDiagram
         double precio
     }
     SERVICIO{
-        int idCategoria  PK
+        int idServicio  PK
         int idHotel FK
         bool Wifi
         bool Pileta
@@ -51,11 +46,10 @@ erDiagram
     }
     HABITACION {
         int idHabitacion PK
-        int idTipoHabitacion
+        int idTipoHabitacion FK
         int numero
         string tipo
         double precio
-        int idHotel FK
     }
     RESERVA{
         int idReserva PK
@@ -64,9 +58,10 @@ erDiagram
         string estado
         int idUsuario FK
         int idHabitacion FK
+        int idEstado FK
     }
     ESTADO_RESERVA{
-        int idEstado
+        int idEstado PK
         string nombre
         string descripccion
     }
@@ -80,12 +75,11 @@ erDiagram
     }
 
     HISTORIAL{
-        int idHistorial 
-        int idUsuario 
+        int idHistorial PK
+        int idUsuario FK
         datetime fecha_guardado
     }
     BARRIO ||--o{ HOTEL : contains
-    COMUNA ||--o{ BARRIO : contains
     HOTEL||--o{TIPO_HABITACION:has
     TIPO_HABITACION||--o{HABITACION:has
     USUARIO ||--o{ RESERVA : makes
@@ -98,3 +92,22 @@ erDiagram
 ```
 
 # Diagrama de Clases
+
+```mermaid
+classDiagram
+direction RL
+
+    class Barrio{
+    + int idBarrio
+    + string nombre
+    + list|Hotel| Hoteles
+    }
+
+    class Hotel{
+    + int idHotel
+    + int idBarrio
+    + string nombre
+    + string descripcion
+    + int CalificacionPromedio
+    }
+```
