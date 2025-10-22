@@ -1,17 +1,22 @@
-// server.js — Backend actualizado para Hoteles BA
+// server.js — Backend actualizado y corregido para Hoteles BA
 const express = require('express');
 const mysql = require('mysql2');
 const cors = require('cors');
 const bodyParser = require('body-parser');
+const path = require('path');
 require('dotenv').config();
 
 const app = express();
 const port = process.env.PORT || 3000;
 
+// 🧰 Middlewares
 app.use(cors());
 app.use(express.static('public'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+
+// 🖼️ Servir imágenes locales desde la carpeta /images
+app.use('/images', express.static(path.join(__dirname, 'images')));
 
 const db = mysql.createConnection({
   host: process.env.DB_HOST || 'localhost',
@@ -28,6 +33,7 @@ db.connect(err => {
   console.log('✅ Conectado a MySQL');
 });
 
+// 📦 Endpoint principal de hoteles
 app.get('/api/hotels', (req, res) => {
   console.log('Query params:', req.query);
 
@@ -59,7 +65,7 @@ app.get('/api/hotels', (req, res) => {
     FROM hoteles h
     JOIN sectores s ON h.sector_id = s.id
     ${where}
-  `; // <--- Punto y coma removido
+  `;
 
   const dataSql = `
     SELECT h.id, h.nombre, h.estrellas, h.descripcion, h.imagen,
@@ -85,12 +91,23 @@ app.get('/api/hotels', (req, res) => {
         console.error('Error en dataSql:', err);
         return res.status(500).json({ error: err.message });
       }
-      console.log('Hoteles obtenidos:', dataResults.length);
-      res.json({ hotels: dataResults, total });
+
+      // 🔧 Ajuste clave: no alterar las URLs de imagen
+      // Solo agregamos prefijo local si NO empieza con http
+      const hotels = dataResults.map(hotel => ({
+        ...hotel,
+        imagen: hotel.imagen?.startsWith('http')
+          ? hotel.imagen
+          : `http://localhost:${port}/images/${hotel.imagen}`
+      }));
+
+      console.log('Hoteles obtenidos:', hotels.length);
+      res.json({ hotels, total });
     });
   });
 });
 
+// 📋 Endpoint de sectores
 app.get('/api/sectores', (req, res) => {
   db.query('SELECT nombre FROM sectores ORDER BY nombre ASC', (err, results) => {
     if (err) return res.status(500).json({ error: err.message });

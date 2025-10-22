@@ -1,80 +1,138 @@
-// script.js — Frontend dinámico
-const apiBase = '/api';
-const cardsArea = document.getElementById('cardsArea');
-const tpl = document.getElementById('hotelCardTpl');
+// script.js — Cliente frontend de HotelesBA
+const API_BASE = 'http://localhost:3000/api';
+
 const searchInput = document.getElementById('searchInput');
 const sectorSelect = document.getElementById('sectorSelect');
 const sortSelect = document.getElementById('sortSelect');
 const searchBtn = document.getElementById('searchBtn');
-const pagination = document.getElementById('pagination');
+const cardsArea = document.getElementById('cardsArea');
+const paginationDiv = document.getElementById('pagination');
+const hotelTpl = document.getElementById('hotelCardTpl');
 
-let page = 1, perPage = 12, totalPages = 1;
-const maxButtons = 5;  // Definimos el número máximo de botones de paginación visibles
+let currentPage = 1;
+let totalResults = 0;
+let perPage = 12;
 
-async function fetchHotels(){
-  const q = encodeURIComponent(searchInput.value || '');
-  const sector = encodeURIComponent(sectorSelect.value || '');
-  const sort = encodeURIComponent(sortSelect.value || '');
-  const res = await fetch(`${apiBase}/hotels?q=${q}&sector=${sector}&sort=${sort}&page=${page}&perPage=${perPage}`);
-  if(!res.ok){
-    cardsArea.innerHTML = '<p style="color:#f66">Error cargando hoteles</p>';
-    return;
+// ------------------------
+// 🔹 Cargar sectores dinámicamente
+// ------------------------
+async function loadSectors() {
+  try {
+    const res = await fetch(`${API_BASE}/sectores`);
+    const data = await res.json();
+
+    // Vacía las opciones actuales excepto "Todos los barrios"
+    const defaultOpt = sectorSelect.querySelector('option[value=""]');
+    sectorSelect.innerHTML = '';
+    sectorSelect.appendChild(defaultOpt);
+
+    data.forEach(s => {
+      const opt = document.createElement('option');
+      opt.value = s.nombre;
+      opt.textContent = s.nombre;
+      sectorSelect.appendChild(opt);
+    });
+  } catch (err) {
+    console.error('Error al cargar sectores:', err);
   }
-  const data = await res.json();
-  totalPages = Math.max(1, Math.ceil(data.total / perPage));
-  renderHotels(data.hotels);
-  renderPagination();
 }
 
-function renderHotels(hotels){
-  cardsArea.innerHTML = '';
-  hotels.forEach(h => {
-    const node = tpl.content.cloneNode(true);
-    node.querySelector('img').src = h.image && h.image.startsWith('/images')
-      ? h.image
-      : '/images/hotel1.jpg';
-    node.querySelector('img').alt = h.name || 'Hotel';
-    node.querySelector('.rating').textContent = (h.rating !== undefined ? h.rating : 8.6).toFixed(1);
-    node.querySelector('.hotel-name').textContent = h.name || 'Nombre no disponible';
-    node.querySelector('.hotel-sector').textContent = `${h.sector || 'Sector desconocido'} • ${h.stars || '?'}★`;
-    node.querySelector('.price').textContent = `$${Number(h.price || 0).toLocaleString('es-AR')}`;
-    node.querySelector('.viewBtn').addEventListener('click', () => alert('Ver oferta de ' + (h.name || 'hotel')));
-    cardsArea.appendChild(node);
+// ------------------------
+// 🔹 Cargar hoteles con filtros
+// ------------------------
+async function loadHotels(page = 1) {
+  const q = searchInput.value.trim();
+  const sector = sectorSelect.value;
+  const sortVal = sortSelect.value;
+
+  let sort = '';
+  if (sortVal === 'price_asc') sort = 'asc';
+  if (sortVal === 'price_desc') sort = 'desc';
+  if (sortVal === 'rating_desc') sort = 'rating';
+
+  const params = new URLSearchParams({
+    q,
+    sector,
+    sort,
+    page,
+    perPage
   });
+
+  try {
+    const res = await fetch(`${API_BASE}/hotels?${params}`);
+    const data = await res.json();
+
+    cardsArea.innerHTML = '';
+
+    if (data.hotels.length === 0) {
+      cardsArea.innerHTML = '<p class="no-results">No se encontraron hoteles.</p>';
+      paginationDiv.innerHTML = '';
+      return;
+    }
+
+    data.hotels.forEach(hotel => {
+      const card = hotelTpl.content.cloneNode(true);
+
+      const img = card.querySelector('img');
+      img.src = hotel.imagen || 'https://via.placeholder.com/400x300?text=Sin+imagen';
+      img.alt = hotel.nombre;
+
+      card.querySelector('.hotel-name').textContent = hotel.nombre;
+      card.querySelector('.hotel-sector').textContent = hotel.sector;
+      card.querySelector('.price').textContent = `$${hotel.precio}`;
+      card.querySelector('.rating').textContent = '⭐'.repeat(hotel.estrellas);
+
+      cardsArea.appendChild(card);
+    });
+
+    totalResults = data.total;
+    renderPagination(page);
+  } catch (err) {
+    console.error('Error al cargar hoteles:', err);
+  }
 }
 
-function renderPagination(){
-  pagination.innerHTML = '';
+// ------------------------
+// 🔹 Renderizar paginación
+// ------------------------
+function renderPagination(page) {
+  const totalPages = Math.ceil(totalResults / perPage);
+  paginationDiv.innerHTML = '';
 
-  const start = Math.max(1, page - Math.floor(maxButtons / 2));
-  const end = Math.min(totalPages, start + maxButtons - 1);
+  if (totalPages <= 1) return;
 
-  for(let i = start; i <= end; i++){
+  for (let i = 1; i <= totalPages; i++) {
     const btn = document.createElement('button');
     btn.textContent = i;
-    if(i === page){
-      btn.style.opacity = '0.6';
-      btn.disabled = true;
-    }
-    btn.onclick = () => {
-      page = i;
-      fetchHotels();
-    };
-    pagination.appendChild(btn);
+    btn.className = i === page ? 'active' : '';
+    btn.addEventListener('click', () => {
+      currentPage = i;
+      loadHotels(i);
+    });
+    paginationDiv.appendChild(btn);
   }
 }
 
+// ------------------------
+// 🔹 Listeners
+// ------------------------
 searchBtn.addEventListener('click', () => {
-  page = 1;
-  fetchHotels();
+  currentPage = 1;
+  loadHotels();
 });
 
-searchInput.addEventListener('keydown', e => {
-  if(e.key === 'Enter'){
-    page = 1;
-    fetchHotels();
-  }
+sortSelect.addEventListener('change', () => {
+  currentPage = 1;
+  loadHotels();
 });
 
-// inicial
-fetchHotels();
+sectorSelect.addEventListener('change', () => {
+  currentPage = 1;
+  loadHotels();
+});
+
+// ------------------------
+// 🔹 Inicialización
+// ------------------------
+loadSectors();
+loadHotels();

@@ -1,11 +1,14 @@
 {
-  "name": "hotelesBA",
+  "name": "hoteles-ba",
   "version": "1.0.0",
+  "description": "API para gestión de hoteles en Buenos Aires",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
     "seed": "node seed.js"
   },
+  "author": "Tu Nombre",
+  "license": "MIT",
   "dependencies": {
     "cors": "^2.8.5",
     "dotenv": "^16.0.3",
