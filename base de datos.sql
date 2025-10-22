@@ -70,10 +70,10 @@ INSERT INTO hoteles (nombre, estrellas, descripcion, imagen, direccion, sector_i
 ('Hotel El Conquistador', 3, 'Estilo clásico y buena ubicación.', 'https://www.es.momondo.com/himg/43/46/40/ice-51642-photo.aspx_did=2692_brochureid=51642_publicid=6125123_instanceid=2-image.jpg', 'Av. Corrientes 4200, Almagro', 8, 'Clásico', 80),
 ('Hotel Suipacha', 2, 'Económico y cercano a la Avenida Corrientes.', 'https://imgcy.trivago.com/c_fill,d_dummy.jpeg,e_sharpen:60,f_auto,h_267,q_40,w_400/partner-images/e8/29/2ac6443fcc65a4e59373ad2463ad6ecea43b19d01f54953c73a7995cb6ba.jpeg', 'Suipacha 200, Almagro', 8, 'Económico', 70),
 
-('Hotel Devoto', 3, 'Ambiente tranquilo y familiar.', 'hotel_devoto.jpg', 'Gral. José Gervasio Artigas 1230, Villa Devoto', 9, 'Económico', 65),
-('Hotel Los Angeles', 3, 'Económico y bien ubicado.', 'hotel_losangeles.jpg', 'Av. Mosconi 900, Villa Devoto', 9, 'Económico', 60),
+('Hotel Devoto', 3, 'Ambiente tranquilo y familiar.', 'https://dynamic-media-cdn.tripadvisor.com/media/photo-o/06/5e/e2/16/hotel-del-parque.jpg?w=500&h=-1&s=1', 'Gral. José Gervasio Artigas 1230, Villa Devoto', 9, 'Económico', 65),
+('Hotel Los Angeles', 3, 'Económico y bien ubicado.', 'https://dynamic-media-cdn.tripadvisor.com/media/photo-o/09/2b/7c/9d/los-angeles.jpg?w=900&h=500&s=1', 'Av. Mosconi 900, Villa Devoto', 9, 'Económico', 60),
 ('Hotel Del Parque', 3, 'Cómodo y con servicios básicos.', 'hotel_delparque.jpg', 'Av. Sanabria 1500, Villa Devoto', 9, 'Económico', 60),
 
-('Hotel Villa del Parque', 3, 'Tradicional y accesible.', 'hotel_villadelparque.jpg', 'Av. Nazca 3200, Villa del Parque', 10, 'Económico', 60),
-('Hotel Los Andes', 3, 'Ambiente familiar y tranquilo.', 'hotel_losandes.jpg', 'Av. San Martín 4000, Villa del Parque', 10, 'Económico', 55),
-('Hotel El Parque', 3, 'Cómodo y bien ubicado.', 'hotel_elparque.jpg', 'Av. Segurola 1800, Villa del Parque', 10, 'Económico', 58);
+('Hotel Villa del Parque', 3, 'Tradicional y accesible.', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcROiU8XR9_SWUkwqg1qubdp1ODp2rglvIfEZK3iYzPZNfvxQGS1Pa-XwIHM471lWVxy0UU&usqp=CAU', 'Av. Nazca 3200, Villa del Parque', 10, 'Económico', 60),
+('Hotel Los Andes', 3, 'Ambiente familiar y tranquilo.', 'https://pix10.agoda.net/hotelImages/367821/0/12d7735fe4af1af283a38d6f498ed680.jpeg?s=414x232', 'Av. San Martín 4000, Villa del Parque', 10, 'Económico', 55),
+('hotel del parque', 3, 'Cómodo y bien ubicado.', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR_90WJm-P3B-jXDuw633AvMsKEOUzpCsyseg&s', 'Av. Segurola 1800, Villa del Parque', 10, 'Económico', 58);
