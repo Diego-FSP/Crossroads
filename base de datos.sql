@@ -4,13 +4,13 @@ CREATE DATABASE hotelesBA;
 USE hotelesBA;
 
 -- Tabla sectores
-CREATE TABLE sectores (
-    id INT AUTO_INCREMENT PRIMARY KEY,
+CREATE TABLE barrio (
+    barrio_id INT AUTO_INCREMENT PRIMARY KEY,
     nombre VARCHAR(100) NOT NULL
 );
 
 -- Insertar 10 sectores
-INSERT INTO sectores (nombre) VALUES
+INSERT INTO barrio (nombre) VALUES
 ('Palermo'),
 ('Recoleta'),
 ('Microcentro'),
@@ -22,7 +22,7 @@ INSERT INTO sectores (nombre) VALUES
 ('Villa Devoto'),
 ('Villa del Parque');
 
--- Tabla hoteles con relación a sectores
+-- Tabla hoteles con relación a barrio
 CREATE TABLE hoteles (
     id INT AUTO_INCREMENT PRIMARY KEY,
     nombre VARCHAR(100) NOT NULL,
@@ -30,13 +30,13 @@ CREATE TABLE hoteles (
     descripcion TEXT,
     imagen VARCHAR(1500), -- <- Esto guarda la URL
     direccion VARCHAR(255),
-    sector_id INT,
+    barrio_id INT,
     categoria VARCHAR(50),
-    FOREIGN KEY (sector_id) REFERENCES sectores(id)
+    FOREIGN KEY (barrio_id) REFERENCES barrio(barrio_id)
 );
 
 -- Insertar hoteles ejemplo (30, para ejemplo; completa con la misma estructura hasta 100)
-INSERT INTO hoteles (nombre, estrellas, descripcion, imagen, direccion, sector_id, categoria) VALUES
+INSERT INTO hoteles (nombre, estrellas, descripcion, imagen, direccion, barrio_id, categoria) VALUES
 ('Hotel Palo Santo', 4, 'Boutique con estilo moderno y piscina.', 'https://media-cdn.tripadvisor.com/media/photo-s/12/5d/b2/68/the-beautiful-palo-santo.jpg', 'Costa Rica 5852, Palermo', 1, 'Boutique'),
 ('Vitrum Hotel', 4, 'Diseño contemporáneo y ubicación estratégica.', 'https://dynamic-media-cdn.tripadvisor.com/media/photo-o/03/06/e8/71/hotel-vitrum.jpg?w=900&h=500&s=1', 'Gorriti 5780, Palermo', 1, 'Boutique'),
 ('Home Hotel', 4, 'Conocido por su arquitectura y ambiente relajado.', 'https://ultimallamada.com/wp-content/uploads/2021/12/Home-Hotel-Buenos-Aires-45.jpg', 'Armenia 1666, Palermo', 1, 'Boutique'),
