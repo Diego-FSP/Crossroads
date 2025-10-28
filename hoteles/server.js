@@ -1,4 +1,4 @@
-// server.js — Backend actualizado y corregido para Hoteles BA
+// server.js — Backend actualizado para Hoteles BA
 const express = require('express');
 const mysql = require('mysql2');
 const cors = require('cors');
@@ -20,8 +20,8 @@ app.use('/images', express.static(path.join(__dirname, 'images')));
 
 const db = mysql.createConnection({
   host: process.env.DB_HOST || 'localhost',
-  user: process.env.DB_USER || 'root',
-  password: process.env.DB_PASS || 'root',
+  user: process.env.DB_USER || '5to_agbd',
+  password: process.env.DB_PASS || 'Trigg3rs!',
   database: process.env.DB_NAME || 'hotelesBA'
 });
 
@@ -37,7 +37,7 @@ db.connect(err => {
 app.get('/api/hotels', (req, res) => {
   console.log('Query params:', req.query);
 
-  let { q, sector, sort, page = 1, perPage = 12 } = req.query;
+  let { q, barrio, sort, page = 1, perPage = 12 } = req.query;
   page = parseInt(page);
   perPage = parseInt(perPage);
 
@@ -49,9 +49,9 @@ app.get('/api/hotels', (req, res) => {
     params.push(`%${q}%`);
   }
 
-  if (sector) {
-    where += ' AND s.nombre = ?';
-    params.push(sector);
+  if (barrio) {
+    where += ' AND b.nombre = ?'; // Cambié 'sector' por 'barrio' y ajusté la referencia a la tabla 'barrio'
+    params.push(barrio);
   }
 
   let orderBy = 'ORDER BY h.precio ASC';
@@ -63,15 +63,15 @@ app.get('/api/hotels', (req, res) => {
   const countSql = `
     SELECT COUNT(*) AS total
     FROM hoteles h
-    JOIN sectores s ON h.sector_id = s.id
+    JOIN barrio b ON h.barrio_id = b.barrio_id  // Corregí la relación con la tabla 'barrio' usando 'barrio_id'
     ${where}
   `;
 
   const dataSql = `
     SELECT h.id, h.nombre, h.estrellas, h.descripcion, h.imagen,
-           h.direccion, h.categoria, h.precio, s.nombre AS sector
+           h.direccion, h.categoria, h.precio, b.nombre AS barrio  // Corregí la relación y el campo 'barrio'
     FROM hoteles h
-    JOIN sectores s ON h.sector_id = s.id
+    JOIN barrio b ON h.barrio_id = b.barrio_id  // Corregí la relación con la tabla 'barrio'
     ${where}
     ${orderBy}
     LIMIT ? OFFSET ?;
@@ -79,42 +79,34 @@ app.get('/api/hotels', (req, res) => {
 
   db.query(countSql, params, (err, countResults) => {
     if (err) {
-      console.error('Error en countSql:', err);
+      console.error('❌ Error en countSql:', err);
       return res.status(500).json({ error: err.message });
     }
 
     const total = countResults[0].total;
-    console.log('Total hoteles:', total);
+    console.log('Total hoteles encontrados:', total);
 
     db.query(dataSql, [...params, perPage, offset], (err, dataResults) => {
       if (err) {
-        console.error('Error en dataSql:', err);
+        console.error('❌ Error en dataSql:', err);
         return res.status(500).json({ error: err.message });
       }
 
-      // 🔧 Ajuste clave: no alterar las URLs de imagen
-      // Solo agregamos prefijo local si NO empieza con http
-      const hotels = dataResults.map(hotel => ({
-        ...hotel,
-        imagen: hotel.imagen?.startsWith('http')
-          ? hotel.imagen
-          : `http://localhost:${port}/images/${hotel.imagen}`
-      }));
-
-      console.log('Hoteles obtenidos:', hotels.length);
-      res.json({ hotels, total });
+      console.log('Hoteles obtenidos:', dataResults.length);
+      res.json({ hotels: dataResults, total });
     });
   });
 });
 
-// 📋 Endpoint de sectores
+// 📋 Endpoint de barrios
 app.get('/api/sectores', (req, res) => {
-  db.query('SELECT nombre FROM sectores ORDER BY nombre ASC', (err, results) => {
+  db.query('SELECT nombre FROM barrio ORDER BY nombre ASC', (err, results) => {  // Cambié 'sectores' a 'barrio'
     if (err) return res.status(500).json({ error: err.message });
     res.json(results);
   });
 });
 
+// Servidor en marcha
 app.listen(port, () => {
   console.log(`🚀 Servidor corriendo en http://localhost:${port}`);
 });

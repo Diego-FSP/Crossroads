@@ -16,8 +16,8 @@ app.use(bodyParser.urlencoded({ extended: true }));
 // Conexión a MySQL
 const db = mysql.createConnection({
   host: process.env.DB_HOST || 'localhost',
-  user: process.env.DB_USER || 'root',
-  password: process.env.DB_PASS || 'root',
+  user: process.env.DB_USER || '5to_agbd',
+  password: process.env.DB_PASS || 'Trigg3rs!',
   database: process.env.DB_NAME || 'hotelesBA'
 });
 
@@ -48,7 +48,7 @@ app.get('/api/hotels', (req, res) => {
   }
 
   if (sector) {
-    where += ' AND sector = ?';
+    where += ' AND barrio = ?';
     params.push(sector);
   }
 
@@ -60,7 +60,7 @@ app.get('/api/hotels', (req, res) => {
 
   const countSql = `SELECT COUNT(*) AS total FROM hoteles ${where}`;
   const dataSql = `
-    SELECT id, nombre, estrellas, descripcion, imagen, sector, precio
+    SELECT id, nombre, estrellas, descripcion, imagen, barrio, precio
     FROM hoteles
     ${where}
     ${orderBy}
@@ -92,13 +92,13 @@ app.get('/api/hotels', (req, res) => {
 // 🔹 Endpoint: Obtener sectores (distintos de la tabla hoteles)
 // ----------------------
 app.get('/api/sectores', (req, res) => {
-  const sql = 'SELECT DISTINCT sector FROM hoteles ORDER BY sector ASC';
+  const sql = 'SELECT DISTINCT sector FROM hoteles ORDER BY barrio ASC';
   db.query(sql, (err, results) => {
     if (err) {
-      console.error('❌ Error en /api/sectores:', err);
+      console.error('❌ Error en /api/barrio:', err);
       return res.status(500).json({ error: err.message });
     }
-    res.json(results.map(r => ({ nombre: r.sector })));
+    res.json(results.map(r => ({ nombre: r.barrio })));
   });
 });
 
