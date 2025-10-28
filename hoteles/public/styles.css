@@ -1,10 +1,10 @@
 :root{
---bg:#0b0f12;
---card:#0f1720;
---muted:#98a0a6;
---accent:#00aaff;
---accent-2:#9b59ff;
---glass: rgba(255,255,255,0.03);
+  --bg:#0b0f12;
+  --card:#0f1720;
+  --muted:#98a0a6;
+  --accent:#00aaff;
+  --accent-2:#9b59ff;
+  --glass: rgba(255,255,255,0.03);
 }
 *{box-sizing:border-box}
 body{margin:0;font-family:Inter,system-ui,Segoe UI,Arial;background:var(--bg);color:#e6eef6}
@@ -14,6 +14,8 @@ body{margin:0;font-family:Inter,system-ui,Segoe UI,Arial;background:var(--bg);co
 .top-controls{display:flex;gap:10px;align-items:center}
 .top-controls input, .top-controls select{padding:10px 12px;border-radius:8px;border:none;background:var(--glass);color:inherit;outline:none;min-width:160px}
 .top-controls button{background:linear-gradient(90deg,var(--accent),var(--accent-2));border:none;padding:10px 16px;border-radius:10px;color:#062331;font-weight:700;cursor:pointer}
+.user-auth-buttons{display:flex;gap:8px}
+.auth-btn{padding:8px 14px;border-radius:10px;font-weight:700;cursor:pointer;border:none;background:linear-gradient(90deg,var(--accent),var(--accent-2));color:#062331}
 .container{max-width:1200px;margin:36px auto;padding:0 20px}
 .hero{padding:32px;background:linear-gradient(180deg, rgba(255,255,255,0.02), transparent);border-radius:12px;margin-bottom:18px}
 .hero h1{margin:0 0 8px;font-size:28px}
@@ -32,5 +34,38 @@ body{margin:0;font-family:Inter,system-ui,Segoe UI,Arial;background:var(--bg);co
 .pagination{display:flex;gap:8px;justify-content:center;padding:18px}
 .pagination button{background:transparent;border:1px solid rgba(255,255,255,0.04);padding:8px 12px;border-radius:8px;color:var(--muted);cursor:pointer}
 
+/* Modal */
+.modal {
+  display: none; 
+  position: fixed;
+  z-index: 100;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(11, 15, 18, 0.85);
+}
+.modal-content {
+  background-color: var(--card);
+  margin: 10% auto;
+  color: #e6eef6;
+  position: relative;
+  font-family: inherit;
+}
+.close-btn {
+  position: absolute;
+  top: 12px;
+  right: 18px;
+  color: var(--muted);
+  font-size: 28px;
+  font-weight: bold;
+  cursor: pointer;
+  user-select: none;
+}
+.close-btn:hover { color: var(--accent-2); }
+.modal-content h2 { margin-top:0; margin-bottom:18px; font-weight:700; font-size:24px; }
+.modal-content label { display:block; margin-bottom:6px; font-weight:600; font-size:14px; }
+.modal-content input { width:100%; padding:10px 12px; margin-bottom:18px; border-radius:8px; border:none; background:var(--glass); color:inherit; outline:none; font-size:14px; font-family:inherit; box-sizing:border-box; }
 
 @media (max-width:700px){.top-controls{flex-wrap:wrap}.hero h1{font-size:20px}}

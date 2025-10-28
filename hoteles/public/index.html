@@ -1,69 +1,129 @@
 <!doctype html>
-<title>HotelesBA </title>
-<link rel="stylesheet" href="styles.css" />
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>HotelesBA</title>
+  <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
 <header class="site-header">
-<div class="brand">CABA<span class="accent">Stay</span></div>
-<nav class="top-controls">
-<input id="searchInput" placeholder="Buscar hotel, barrio o palabra clave..." />
-<select id="sectorSelect">
-<option value="">Todos los barrios</option>
-<option>Palermo</option>
-<option>Recoleta</option>
-<option>San Telmo</option>
-<option>Belgrano</option>
-<option>Microcentro</option>
-<option>Puerto Madero</option>
-<option>Almagro</option>
-<option>Villa devoto</option>
-<option>Villa del Parque</option>
-</select>
-<select id="sortSelect">
-<option value="recommended">Recomendados</option>
-<option value="price_asc">Precio: menor a mayor</option>
-<option value="price_desc">Precio: mayor a menor</option>
-<option value="rating_desc">Rating</option>
-</select>
-<button id="searchBtn">Buscar</button>
-</nav>
+  <div class="brand">CABA<span class="accent">Stay</span></div>
+  <nav class="top-controls">
+    <input id="searchInput" placeholder="Buscar hotel, barrio o palabra clave..." />
+    <select id="sectorSelect">
+      <option value="">Todos los barrios</option>
+      <option>Palermo</option>
+      <option>Recoleta</option>
+      <option>San Telmo</option>
+      <option>Belgrano</option>
+      <option>Microcentro</option>
+      <option>Puerto Madero</option>
+      <option>Almagro</option>
+      <option>Villa devoto</option>
+      <option>Villa del Parque</option>
+    </select>
+    <select id="sortSelect">
+      <option value="recommended">Recomendados</option>
+      <option value="price_asc">Precio: menor a mayor</option>
+      <option value="price_desc">Precio: mayor a menor</option>
+      <option value="rating_desc">Rating</option>
+    </select>
+    <button id="searchBtn">Buscar</button>
+
+    <!-- Botones de usuario -->
+    <div class="user-auth-buttons">
+      <button class="auth-btn register-btn" id="openRegisterModalBtn">Registrarse</button>
+      <button class="auth-btn login-btn">Iniciar sesión</button>
+    </div>
+  </nav>
 </header>
 
-
 <main class="container">
-<section class="hero">
-<h1>Descubrí CABA — lujo, diseño y experiencias</h1>
-<p>300 hoteles seleccionados en 6 barrios — buscá, filtrá y encontrá la mejor opción.</p>
-</section>
+  <section class="hero">
+    <h1>Descubrí CABA — lujo, diseño y experiencias</h1>
+    <p>300 hoteles seleccionados en 6 barrios — buscá, filtrá y encontrá la mejor opción.</p>
+  </section>
 
+  <section class="cards-area" id="cardsArea">
+    <!-- Las tarjetas se cargan dinámicamente -->
+  </section>
 
-<section class="cards-area" id="cardsArea">
-<!-- Las tarjetas se cargan dinámicamente -->
-</section>
-
-
-<div class="pagination" id="pagination"></div>
+  <div class="pagination" id="pagination"></div>
 </main>
 
-
 <template id="hotelCardTpl">
-<article class="hotel-card">
-<div class="media">
-<img src="" alt="hotel" />
-<div class="rating"></div>
-</div>
-<div class="card-body">
-<h3 class="hotel-name"></h3>
-<p class="hotel-sector"></p>
-<div class="meta">
-<span class="price"></span>
-<button class="viewBtn">Ver oferta</button>
-</div>
-</div>
-</article>
+  <article class="hotel-card">
+    <div class="media">
+      <img src="" alt="hotel" />
+      <div class="rating"></div>
+    </div>
+    <div class="card-body">
+      <h3 class="hotel-name"></h3>
+      <p class="hotel-sector"></p>
+      <div class="meta">
+        <span class="price"></span>
+        <button class="viewBtn">Ver oferta</button>
+      </div>
+    </div>
+  </article>
 </template>
 
+<!-- Modal para registro -->
+<div id="registerModal" class="modal">
+  <div class="modal-content">
+    <span class="close-btn" id="closeRegisterModalBtn">&times;</span>
+    <h2>Crear cuenta</h2>
+    <form id="registerForm">
+      <label for="email">Correo electrónico</label>
+      <input type="email" id="email" name="email" required placeholder="correo@ejemplo.com" />
+      <label for="password">Contraseña</label>
+      <input type="password" id="password" name="password" required placeholder="Contraseña" />
+      <label for="confirmPassword">Repetir contraseña</label>
+      <input type="password" id="confirmPassword" name="confirmPassword" required placeholder="Repetir contraseña" />
+      <button type="submit" class="auth-btn register-btn" style="width: 100%; margin-top: 15px;">Crear cuenta</button>
+    </form>
+  </div>
+</div>
 
 <script src="script.js"></script>
+<script>
+  // ------------------------
+  // 🔹 Modal de registro
+  // ------------------------
+  const registerModal = document.getElementById('registerModal');
+  const openRegisterBtn = document.getElementById('openRegisterModalBtn');
+  const closeRegisterBtn = document.getElementById('closeRegisterModalBtn');
+  const registerForm = document.getElementById('registerForm');
+
+  openRegisterBtn.addEventListener('click', () => {
+    registerModal.style.display = 'block';
+  });
+
+  closeRegisterBtn.addEventListener('click', () => {
+    registerModal.style.display = 'none';
+  });
+
+  window.addEventListener('click', (event) => {
+    if (event.target === registerModal) {
+      registerModal.style.display = 'none';
+    }
+  });
+
+  registerForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const email = registerForm.email.value.trim();
+    const password = registerForm.password.value.trim();
+    const confirmPassword = registerForm.confirmPassword.value.trim();
+
+    if (password !== confirmPassword) {
+      alert('Las contraseñas no coinciden.');
+      return;
+    }
+
+    alert(`Cuenta creada para: ${email}`);
+    registerModal.style.display = 'none';
+    registerForm.reset();
+  });
+</script>
 </body>
 </html>
