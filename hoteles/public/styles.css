@@ -49,6 +49,10 @@ body{margin:0;font-family:Inter,system-ui,Segoe UI,Arial;background:var(--bg);co
 .modal-content {
   background-color: var(--card);
   margin: 10% auto;
+  padding: 24px 32px;
+  border-radius: 12px;
+  width: 320px;
+  box-shadow: 0 0 20px rgba(0,0,0,0.8);
   color: #e6eef6;
   position: relative;
   font-family: inherit;
