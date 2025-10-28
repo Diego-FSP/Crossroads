@@ -36,7 +36,7 @@ CREATE TABLE hoteles (
 );
 
 -- Insertar hoteles ejemplo (30, para ejemplo; completa con la misma estructura hasta 100)
-INSERT INTO hoteles (nombre, estrellas, descripcion, imagen, direccion, barrio_id, categoria) VALUES
+INSERT INTO hoteles (nombre, estrellas, descripcion, imagen, direccion, barrio, categoria) VALUES
 ('Hotel Palo Santo', 4, 'Boutique con estilo moderno y piscina.', 'https://media-cdn.tripadvisor.com/media/photo-s/12/5d/b2/68/the-beautiful-palo-santo.jpg', 'Costa Rica 5852, Palermo', 1, 'Boutique'),
 ('Vitrum Hotel', 4, 'Diseño contemporáneo y ubicación estratégica.', 'https://dynamic-media-cdn.tripadvisor.com/media/photo-o/03/06/e8/71/hotel-vitrum.jpg?w=900&h=500&s=1', 'Gorriti 5780, Palermo', 1, 'Boutique'),
 ('Home Hotel', 4, 'Conocido por su arquitectura y ambiente relajado.', 'https://ultimallamada.com/wp-content/uploads/2021/12/Home-Hotel-Buenos-Aires-45.jpg', 'Armenia 1666, Palermo', 1, 'Boutique'),

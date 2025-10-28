@@ -33,7 +33,7 @@
     <!-- Botones de usuario -->
     <div class="user-auth-buttons">
       <button class="auth-btn register-btn" id="openRegisterModalBtn">Registrarse</button>
-      <button class="auth-btn login-btn">Iniciar sesión</button>
+      <button class="auth-btn login-btn" id="loginBtn">Iniciar sesión</button> <!-- Botón de "Iniciar sesión" -->
     </div>
   </nav>
 </header>
@@ -85,45 +85,21 @@
   </div>
 </div>
 
+<!-- Modal para inicio de sesión -->
+<div id="loginModal" class="modal">
+  <div class="modal-content">
+    <span class="close-btn" id="closeLoginModalBtn">&times;</span>
+    <h2>Iniciar sesión</h2>
+    <form id="loginForm">
+      <label for="loginEmail">Correo electrónico</label>
+      <input type="email" id="loginEmail" name="loginEmail" required placeholder="correo@ejemplo.com" />
+      <label for="loginPassword">Contraseña</label>
+      <input type="password" id="loginPassword" name="loginPassword" required placeholder="Contraseña" />
+      <button type="submit" class="auth-btn login-btn" style="width: 100%; margin-top: 15px;">Iniciar sesión</button>
+    </form>
+  </div>
+</div>
+
 <script src="script.js"></script>
-<script>
-  // ------------------------
-  // 🔹 Modal de registro
-  // ------------------------
-  const registerModal = document.getElementById('registerModal');
-  const openRegisterBtn = document.getElementById('openRegisterModalBtn');
-  const closeRegisterBtn = document.getElementById('closeRegisterModalBtn');
-  const registerForm = document.getElementById('registerForm');
-
-  openRegisterBtn.addEventListener('click', () => {
-    registerModal.style.display = 'block';
-  });
-
-  closeRegisterBtn.addEventListener('click', () => {
-    registerModal.style.display = 'none';
-  });
-
-  window.addEventListener('click', (event) => {
-    if (event.target === registerModal) {
-      registerModal.style.display = 'none';
-    }
-  });
-
-  registerForm.addEventListener('submit', (e) => {
-    e.preventDefault();
-    const email = registerForm.email.value.trim();
-    const password = registerForm.password.value.trim();
-    const confirmPassword = registerForm.confirmPassword.value.trim();
-
-    if (password !== confirmPassword) {
-      alert('Las contraseñas no coinciden.');
-      return;
-    }
-
-    alert(`Cuenta creada para: ${email}`);
-    registerModal.style.display = 'none';
-    registerForm.reset();
-  });
-</script>
 </body>
 </html>
