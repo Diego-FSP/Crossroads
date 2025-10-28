@@ -24,7 +24,7 @@ INSERT INTO barrio (nombre) VALUES
 
 -- Tabla hoteles con relación a barrio
 CREATE TABLE hoteles (
-    id_hotel INT AUTO_INCREMENT PRIMARY KEY,
+    id INT AUTO_INCREMENT PRIMARY KEY,
     nombre VARCHAR(100) NOT NULL,
     estrellas INT NOT NULL,
     descripcion TEXT,
@@ -36,7 +36,7 @@ CREATE TABLE hoteles (
 );
 
 -- Insertar hoteles ejemplo (30, para ejemplo; completa con la misma estructura hasta 100)
-INSERT INTO hoteles (nombre, estrellas, descripcion, imagen, direccion, barrio, categoria) VALUES
+INSERT INTO hoteles (nombre, estrellas, descripcion, imagen, direccion, barrio_id, categoria) VALUES
 ('Hotel Palo Santo', 4, 'Boutique con estilo moderno y piscina.', 'https://media-cdn.tripadvisor.com/media/photo-s/12/5d/b2/68/the-beautiful-palo-santo.jpg', 'Costa Rica 5852, Palermo', 1, 'Boutique'),
 ('Vitrum Hotel', 4, 'Diseño contemporáneo y ubicación estratégica.', 'https://dynamic-media-cdn.tripadvisor.com/media/photo-o/03/06/e8/71/hotel-vitrum.jpg?w=900&h=500&s=1', 'Gorriti 5780, Palermo', 1, 'Boutique'),
 ('Home Hotel', 4, 'Conocido por su arquitectura y ambiente relajado.', 'https://ultimallamada.com/wp-content/uploads/2021/12/Home-Hotel-Buenos-Aires-45.jpg', 'Armenia 1666, Palermo', 1, 'Boutique'),
@@ -76,82 +76,3 @@ INSERT INTO hoteles (nombre, estrellas, descripcion, imagen, direccion, barrio, 
 ('Hotel Villa del Parque', 3, 'Tradicional y accesible.', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcROiU8XR9_SWUkwqg1qubdp1ODp2rglvIfEZK3iYzPZNfvxQGS1Pa-XwIHM471lWVxy0UU&usqp=CAU', 'Av. Nazca 3200, Villa del Parque', 10, 'Económico'),
 ('Hotel Los Andes', 3, 'Ambiente familiar y tranquilo.', 'https://pix10.agoda.net/hotelImages/367821/0/12d7735fe4af1af283a38d6f498ed680.jpeg?s=414x232', 'Av. San Martín 4000, Villa del Parque', 10, 'Económico'),
 ('hotel del parque', 3, 'Cómodo y bien ubicado.', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR_90WJm-P3B-jXDuw633AvMsKEOUzpCsyseg&s', 'Av. Segurola 1800, Villa del Parque', 10, 'Económico');
-
-create table TipoHabitacion
-(
-	idTipoHabitacion int auto_increment primary key,
-    nombre varchar(200),
-    descripcion varchar(400),
-    cantidadPersonas int,
-    metrosCuadrados int,
-    precio double,
-    id_hotel int,
-    FOREIGN KEY (id_hotel) REFERENCES hoteles(id_hotel)
-);
-
-create table Habitacion
-(
-	idHabitacion int primary key,
-    numero int,
-    idTipoHabitacion int,
-    FOREIGN KEY (idTipoHabitacion) REFERENCES TipoHabitacion(idTipoHabitacion)
-);
-
-create table EstadoReserva(
-	idEstadoReserva int primary key,
-    nombre varchar(100),
-    descripcion varchar(400)
-);
-
-create table usuario(
-	idUsuario int primary key,
-    nombre varchar(400),
-    email varchar(400),
-    pass varchar(900),
-    telefono int,
-    documento int
-);
-
-create table Reserva(
-	idReserva int primary key,
-    fechaInicio datetime,
-    fechaLimite datetime,
-    idEstadoReserva int,
-    idUsuario int,
-    idHabitacion int,
-    FOREIGN KEY (idEstadoReserva) REFERENCES EstadoReserva(idEstadoReserva),
-    FOREIGN KEY (idUsuario) REFERENCES usuario(idUsuario),
-    FOREIGN KEY (idHabitacion) REFERENCES Habitacion(idHabitacion)
-);
-
-create table Historial(
-	idHistorial int primary key,
-    idUsuario int,
-    fechaGuardado datetime,
-    id_hotel int,
-    FOREIGN KEY (id_hotel) REFERENCES hoteles(id_hotel),
-    FOREIGN KEY (idUsuario) REFERENCES usuario(idUsuario)
-);
-
-create table Calificacion(
-	idCalficacion int primary key,
-    id_hotel int,
-    idUsuario int,
-    comentario varchar(400),
-    estrellas int,
-    FOREIGN KEY (idUsuario) REFERENCES usuario(idUsuario),
-    FOREIGN KEY (id_hotel) REFERENCES hoteles(id_hotel)
-    );
-    
-create table Servicio(
-	idServicio int primary key,
-    id_hotel int,
-    wifi bool,
-    pileta bool,
-    restaurante bool,
-    mascota bool,
-    CancelacionSinCargo bool,
-    desayuno bool,
-    Terraza bool,
-    FOREIGN KEY (id_hotel) REFERENCES hoteles(id_hotel)
-);
