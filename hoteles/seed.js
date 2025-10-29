@@ -1,4 +1,4 @@
-// server.js — Backend corregido para Hoteles BA (sin tabla sectores)
+// server.js — Backend corregido para Hoteles BA
 const express = require('express');
 const mysql = require('mysql2');
 const cors = require('cors');
@@ -35,7 +35,7 @@ db.connect(err => {
 app.get('/api/hotels', (req, res) => {
   console.log('Query params:', req.query);
 
-  let { q, sector, sort, page = 1, perPage = 12 } = req.query;
+  let { q, barrio, sort, page = 1, perPage = 12 } = req.query;
   page = parseInt(page);
   perPage = parseInt(perPage);
 
@@ -43,25 +43,33 @@ app.get('/api/hotels', (req, res) => {
   const params = [];
 
   if (q) {
-    where += ' AND nombre LIKE ?';
+    where += ' AND h.nombre LIKE ?';
     params.push(`%${q}%`);
   }
 
-  if (sector) {
-    where += ' AND barrio = ?';
-    params.push(sector);
+  if (barrio) {
+    where += ' AND b.nombre = ?';
+    params.push(barrio);
   }
 
-  let orderBy = 'ORDER BY precio ASC';
-  if (sort === 'desc') orderBy = 'ORDER BY precio DESC';
-  if (sort === 'rating') orderBy = 'ORDER BY estrellas DESC';
+  let orderBy = 'ORDER BY h.estrellas ASC';
+  if (sort === 'desc') orderBy = 'ORDER BY h.estrellas DESC';
+  if (sort === 'rating') orderBy = 'ORDER BY h.estrellas DESC';
 
   const offset = (page - 1) * perPage;
 
-  const countSql = `SELECT COUNT(*) AS total FROM hoteles ${where}`;
+  const countSql = `
+    SELECT COUNT(*) AS total
+    FROM hoteles h
+    JOIN barrio b ON h.barrio_id = b.barrio_id
+    ${where}
+  `;
+
   const dataSql = `
-    SELECT id, nombre, estrellas, descripcion, imagen, barrio, precio
-    FROM hoteles
+    SELECT h.id, h.nombre, h.estrellas, h.descripcion, h.imagen,
+           h.direccion, h.categoria, b.nombre AS barrio
+    FROM hoteles h
+    JOIN barrio b ON h.barrio_id = b.barrio_id
     ${where}
     ${orderBy}
     LIMIT ? OFFSET ?;
@@ -69,36 +77,40 @@ app.get('/api/hotels', (req, res) => {
 
   db.query(countSql, params, (err, countResults) => {
     if (err) {
-      console.error('❌ Error en countSql:', err);
+      console.error('Error en countSql:', err);
       return res.status(500).json({ error: err.message });
     }
 
     const total = countResults[0].total;
-    console.log('Total hoteles encontrados:', total);
+    console.log('Total hoteles:', total);
 
     db.query(dataSql, [...params, perPage, offset], (err, dataResults) => {
       if (err) {
-        console.error('❌ Error en dataSql:', err);
+        console.error('Error en dataSql:', err);
         return res.status(500).json({ error: err.message });
       }
 
-      console.log('Hoteles obtenidos:', dataResults.length);
-      res.json({ hotels: dataResults, total });
+      // Ajuste de imágenes locales
+      const hotels = dataResults.map(hotel => ({
+        ...hotel,
+        imagen: hotel.imagen?.startsWith('http')
+          ? hotel.imagen
+          : `http://localhost:${port}/images/${hotel.imagen}`
+      }));
+
+      console.log('Hoteles obtenidos:', hotels.length);
+      res.json({ hotels, total });
     });
   });
 });
 
 // ----------------------
-// 🔹 Endpoint: Obtener sectores (distintos de la tabla hoteles)
+// 🔹 Endpoint de barrios
 // ----------------------
-app.get('/api/sectores', (req, res) => {
-  const sql = 'SELECT DISTINCT sector FROM hoteles ORDER BY barrio ASC';
-  db.query(sql, (err, results) => {
-    if (err) {
-      console.error('❌ Error en /api/barrio:', err);
-      return res.status(500).json({ error: err.message });
-    }
-    res.json(results.map(r => ({ nombre: r.barrio })));
+app.get('/api/barrio', (req, res) => {
+  db.query('SELECT nombre FROM barrio ORDER BY nombre ASC', (err, results) => {
+    if (err) return res.status(500).json({ error: err.message });
+    res.json(results);
   });
 });
 

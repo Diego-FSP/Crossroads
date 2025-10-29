@@ -2,7 +2,7 @@
 const API_BASE = 'http://localhost:3000/api';
 
 const searchInput = document.getElementById('searchInput');
-const sectorSelect = document.getElementById('sectorSelect');
+const barrioSelect = document.getElementById('sectorSelect');
 const sortSelect = document.getElementById('sortSelect');
 const searchBtn = document.getElementById('searchBtn');
 const cardsArea = document.getElementById('cardsArea');
@@ -18,22 +18,22 @@ let perPage = 12;
 // ------------------------
 async function loadSectors() {
   try {
-    const res = await fetch(`${API_BASE}/sectores`);
+    const res = await fetch(`${API_BASE}/barrio`);
     const data = await res.json();
 
     // Vacía las opciones actuales excepto "Todos los barrios"
-    const defaultOpt = sectorSelect.querySelector('option[value=""]');
-    sectorSelect.innerHTML = '';
-    sectorSelect.appendChild(defaultOpt);
+    const defaultOpt = barrioSelect.querySelector('option[value=""]');
+    barrioSelect.innerHTML = '';
+    barrioSelect.appendChild(defaultOpt);
 
     data.forEach(s => {
       const opt = document.createElement('option');
       opt.value = s.nombre;
       opt.textContent = s.nombre;
-      sectorSelect.appendChild(opt);
+      barrioSelect.appendChild(opt);
     });
   } catch (err) {
-    console.error('Error al cargar sectores:', err);
+    console.error('Error al cargar barrios:', err);
   }
 }
 
@@ -42,17 +42,15 @@ async function loadSectors() {
 // ------------------------
 async function loadHotels(page = 1) {
   const q = searchInput.value.trim();
-  const sector = sectorSelect.value;
+  const barrio = barrioSelect.value;
   const sortVal = sortSelect.value;
 
   let sort = '';
-  if (sortVal === 'price_asc') sort = 'asc';
-  if (sortVal === 'price_desc') sort = 'desc';
   if (sortVal === 'rating_desc') sort = 'rating';
 
   const params = new URLSearchParams({
     q,
-    sector,
+    sector: barrio, // ← aquí es importante
     sort,
     page,
     perPage
@@ -62,9 +60,11 @@ async function loadHotels(page = 1) {
     const res = await fetch(`${API_BASE}/hotels?${params}`);
     const data = await res.json();
 
+    console.log('Hoteles recibidos:', data.hotels); // ← verifica las URLs de imagen
+
     cardsArea.innerHTML = '';
 
-    if (data.hotels.length === 0) {
+    if (!data.hotels || data.hotels.length === 0) {
       cardsArea.innerHTML = '<p class="no-results">No se encontraron hoteles.</p>';
       paginationDiv.innerHTML = '';
       return;
@@ -78,14 +78,13 @@ async function loadHotels(page = 1) {
       img.alt = hotel.nombre;
 
       card.querySelector('.hotel-name').textContent = hotel.nombre;
-      card.querySelector('.hotel-sector').textContent = hotel.sector;
-      card.querySelector('.price').textContent = `$${hotel.precio}`;
-      card.querySelector('.rating').textContent = '⭐'.repeat(hotel.estrellas);
+      card.querySelector('.hotel-barrio').textContent = hotel.barrio;
+      card.querySelector('.rating').textContent = '⭐'.repeat(hotel.estrellas || 0);
 
       cardsArea.appendChild(card);
     });
 
-    totalResults = data.total;
+    totalResults = data.total || data.hotels.length;
     renderPagination(page);
   } catch (err) {
     console.error('Error al cargar hoteles:', err);
@@ -126,7 +125,7 @@ sortSelect.addEventListener('change', () => {
   loadHotels();
 });
 
-sectorSelect.addEventListener('change', () => {
+barrioSelect.addEventListener('change', () => {
   currentPage = 1;
   loadHotels();
 });
