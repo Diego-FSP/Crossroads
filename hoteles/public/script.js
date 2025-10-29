@@ -14,15 +14,16 @@ let totalResults = 0;
 let perPage = 12;
 
 // ------------------------
-// 🔹 Cargar sectores dinámicamente
+// 🔹 Cargar barrios dinámicamente
 // ------------------------
 async function loadSectors() {
   try {
     const res = await fetch(`${API_BASE}/barrio`);
     const data = await res.json();
 
-    // Vacía las opciones actuales excepto "Todos los barrios"
-    const defaultOpt = barrioSelect.querySelector('option[value=""]');
+    const defaultOpt = document.createElement('option');
+    defaultOpt.value = '';
+    defaultOpt.textContent = 'Todos los barrios';
     barrioSelect.innerHTML = '';
     barrioSelect.appendChild(defaultOpt);
 
@@ -50,7 +51,7 @@ async function loadHotels(page = 1) {
 
   const params = new URLSearchParams({
     q,
-    sector: barrio, // ← aquí es importante
+    barrio, // ✅ nombre correcto del parámetro
     sort,
     page,
     perPage
@@ -60,7 +61,7 @@ async function loadHotels(page = 1) {
     const res = await fetch(`${API_BASE}/hotels?${params}`);
     const data = await res.json();
 
-    console.log('Hoteles recibidos:', data.hotels); // ← verifica las URLs de imagen
+    console.log('Hoteles recibidos:', data.hotels);
 
     cardsArea.innerHTML = '';
 
@@ -78,7 +79,7 @@ async function loadHotels(page = 1) {
       img.alt = hotel.nombre;
 
       card.querySelector('.hotel-name').textContent = hotel.nombre;
-      card.querySelector('.hotel-barrio').textContent = hotel.barrio;
+      card.querySelector('.hotel-sector').textContent = hotel.barrio; // ✅ clase corregida
       card.querySelector('.rating').textContent = '⭐'.repeat(hotel.estrellas || 0);
 
       cardsArea.appendChild(card);
@@ -176,30 +177,25 @@ const openLoginBtn = document.getElementById('loginBtn');
 const closeLoginBtn = document.getElementById('closeLoginModalBtn');
 const loginForm = document.getElementById('loginForm');
 
-// Usuario de ejemplo (puedes cambiarlo por tu lógica real)
 const usuarioValido = {
   email: 'usuario@ejemplo.com',
   password: '123456'
 };
 
-// Abrir el modal de inicio de sesión
 openLoginBtn.addEventListener('click', () => {
   loginModal.style.display = 'block';
 });
 
-// Cerrar modal con la "X"
 closeLoginBtn.addEventListener('click', () => {
   loginModal.style.display = 'none';
 });
 
-// Cerrar modal si se hace clic fuera
 window.addEventListener('click', (event) => {
   if (event.target === loginModal) {
     loginModal.style.display = 'none';
   }
 });
 
-// Enviar formulario de inicio de sesión
 loginForm.addEventListener('submit', (e) => {
   e.preventDefault();
 
