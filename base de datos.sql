@@ -76,3 +76,82 @@ INSERT INTO hoteles (nombre, estrellas, descripcion, imagen, direccion, barrio_i
 ('Hotel Villa del Parque', 3, 'Tradicional y accesible.', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcROiU8XR9_SWUkwqg1qubdp1ODp2rglvIfEZK3iYzPZNfvxQGS1Pa-XwIHM471lWVxy0UU&usqp=CAU', 'Av. Nazca 3200, Villa del Parque', 10, 'Económico'),
 ('Hotel Los Andes', 3, 'Ambiente familiar y tranquilo.', 'https://pix10.agoda.net/hotelImages/367821/0/12d7735fe4af1af283a38d6f498ed680.jpeg?s=414x232', 'Av. San Martín 4000, Villa del Parque', 10, 'Económico'),
 ('hotel del parque', 3, 'Cómodo y bien ubicado.', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR_90WJm-P3B-jXDuw633AvMsKEOUzpCsyseg&s', 'Av. Segurola 1800, Villa del Parque', 10, 'Económico');
+
+create table TipoHabitacion
+(
+	idTipoHabitacion int auto_increment primary key,
+    nombre varchar(200),
+    descripcion varchar(400),
+    cantidadPersonas int,
+    metrosCuadrados int,
+    precio double,
+    id_hotel int,
+    FOREIGN KEY (id_hotel) REFERENCES hoteles(id)
+);
+
+create table Habitacion
+(
+	idHabitacion int primary key,
+    numero int,
+    idTipoHabitacion int,
+    FOREIGN KEY (idTipoHabitacion) REFERENCES TipoHabitacion(idTipoHabitacion)
+);
+
+create table EstadoReserva(
+	idEstadoReserva int primary key,
+    nombre varchar(100),
+    descripcion varchar(400)
+);
+
+create table usuario(
+	idUsuario int primary key,
+    nombre varchar(400),
+    email varchar(400),
+    pass varchar(900),
+    telefono int,
+    documento int
+);
+
+create table Reserva(
+	idReserva int primary key,
+    fechaInicio datetime,
+    fechaLimite datetime,
+    idEstadoReserva int,
+    idUsuario int,
+    idHabitacion int,
+    FOREIGN KEY (idEstadoReserva) REFERENCES EstadoReserva(idEstadoReserva),
+    FOREIGN KEY (idUsuario) REFERENCES usuario(idUsuario),
+    FOREIGN KEY (idHabitacion) REFERENCES Habitacion(idHabitacion)
+);
+
+create table Historial(
+	idHistorial int primary key,
+    idUsuario int,
+    fechaGuardado datetime,
+    id_hotel int,
+    FOREIGN KEY (id_hotel) REFERENCES hoteles(id),
+    FOREIGN KEY (idUsuario) REFERENCES usuario(idUsuario)
+);
+
+create table Calificacion(
+	idCalficacion int primary key,
+    id_hotel int,
+    idUsuario int,
+    comentario varchar(400),
+    estrellas int,
+    FOREIGN KEY (idUsuario) REFERENCES usuario(idUsuario),
+    FOREIGN KEY (id_hotel) REFERENCES hoteles(id)
+    );
+    
+create table Servicio(
+	idServicio int primary key,
+    id_hotel int,
+    wifi bool,
+    pileta bool,
+    restaurante bool,
+    mascota bool,
+    CancelacionSinCargo bool,
+    desayuno bool,
+    Terraza bool,
+    FOREIGN KEY (id_hotel) REFERENCES hoteles(id)
+);
