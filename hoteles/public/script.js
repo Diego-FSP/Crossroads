@@ -3,7 +3,7 @@ const API_BASE = 'http://localhost:3000/api';
 
 const searchInput = document.getElementById('searchInput');
 const barrioSelect = document.getElementById('sectorSelect');
-const sortSelect = document.getElementById('sortSelect');
+const sortSelect = document.getElementById('sortSelect') || { value: 'recommended' };
 const searchBtn = document.getElementById('searchBtn');
 const cardsArea = document.getElementById('cardsArea');
 const paginationDiv = document.getElementById('pagination');
@@ -51,7 +51,7 @@ async function loadHotels(page = 1) {
 
   const params = new URLSearchParams({
     q,
-    barrio, // ✅ nombre correcto del parámetro
+    barrio,
     sort,
     page,
     perPage
@@ -79,7 +79,7 @@ async function loadHotels(page = 1) {
       img.alt = hotel.nombre;
 
       card.querySelector('.hotel-name').textContent = hotel.nombre;
-      card.querySelector('.hotel-sector').textContent = hotel.barrio; // ✅ clase corregida
+      card.querySelector('.hotel-sector').textContent = hotel.barrio;
       card.querySelector('.rating').textContent = '⭐'.repeat(hotel.estrellas || 0);
 
       cardsArea.appendChild(card);
@@ -121,10 +121,12 @@ searchBtn.addEventListener('click', () => {
   loadHotels();
 });
 
-sortSelect.addEventListener('change', () => {
-  currentPage = 1;
-  loadHotels();
-});
+if (sortSelect && sortSelect.addEventListener) {
+  sortSelect.addEventListener('change', () => {
+    currentPage = 1;
+    loadHotels();
+  });
+}
 
 barrioSelect.addEventListener('change', () => {
   currentPage = 1;
@@ -153,7 +155,8 @@ window.addEventListener('click', (event) => {
   }
 });
 
-registerForm.addEventListener('submit', (e) => {
+// 🔹 Registro con verificación por correo
+registerForm.addEventListener('submit', async (e) => {
   e.preventDefault();
   const email = registerForm.email.value.trim();
   const password = registerForm.password.value.trim();
@@ -164,9 +167,23 @@ registerForm.addEventListener('submit', (e) => {
     return;
   }
 
-  alert(`Cuenta creada para: ${email}`);
-  registerModal.style.display = 'none';
-  registerForm.reset();
+  try {
+    const res = await fetch(`${API_BASE}/register`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, password })
+    });
+
+    const data = await res.json();
+
+    if (!res.ok) throw new Error(data.error || 'Error al registrar');
+
+    alert(`${data.message}\nRevisa tu correo para verificar tu cuenta.`);
+    registerModal.style.display = 'none';
+    registerForm.reset();
+  } catch (err) {
+    alert(err.message);
+  }
 });
 
 // ------------------------
@@ -176,11 +193,6 @@ const loginModal = document.getElementById('loginModal');
 const openLoginBtn = document.getElementById('loginBtn');
 const closeLoginBtn = document.getElementById('closeLoginModalBtn');
 const loginForm = document.getElementById('loginForm');
-
-const usuarioValido = {
-  email: 'usuario@ejemplo.com',
-  password: '123456'
-};
 
 openLoginBtn.addEventListener('click', () => {
   loginModal.style.display = 'block';
@@ -196,18 +208,29 @@ window.addEventListener('click', (event) => {
   }
 });
 
-loginForm.addEventListener('submit', (e) => {
+// 🔹 Login normal (sin restricciones)
+loginForm.addEventListener('submit', async (e) => {
   e.preventDefault();
 
   const email = loginForm.loginEmail.value.trim();
   const password = loginForm.loginPassword.value.trim();
 
-  if (email === usuarioValido.email && password === usuarioValido.password) {
-    alert('Inicio de sesión exitoso');
+  try {
+    const res = await fetch(`${API_BASE}/login`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, password })
+    });
+
+    const data = await res.json();
+
+    if (!res.ok) throw new Error(data.error || 'Error al iniciar sesión');
+
+    alert('Inicio de sesión exitoso: ' + data.email);
     loginModal.style.display = 'none';
     loginForm.reset();
-  } else {
-    alert('Correo o contraseña incorrectos.');
+  } catch (err) {
+    alert(err.message);
   }
 });
 
