@@ -21,8 +21,8 @@ app.use('/images', express.static(path.join(__dirname, 'images')));
 // 🔹 Conexión a MySQL
 const db = mysql.createConnection({
   host: process.env.DB_HOST || 'localhost',
-  user: process.env.DB_USER || 'root',
-  password: process.env.DB_PASS || 'root',
+  user: process.env.DB_USER || '5to_agbd',
+  password: process.env.DB_PASS || 'Trigg3rs!',
   database: process.env.DB_NAME || 'hotelesBA'
 });
 
