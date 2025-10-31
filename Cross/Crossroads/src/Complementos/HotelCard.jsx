@@ -32,7 +32,7 @@ export function HotelCard() {
                     src={h.imagen || 'https://via.placeholder.com/400x300'}
                     alt={h.nombre}
                 />
-                <div className="rating">⭐️{h.estrellas || 0}</div>
+                <div className="rating"> {'⭐️'.repeat(h.estrellas)}</div>
                 </div>
                 <div className="card-body">
                 <h3 className="hotel-name">{h.nombre}</h3>

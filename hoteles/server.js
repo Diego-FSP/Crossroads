@@ -184,4 +184,16 @@ app.get('/api/barrio', (req, res) => {
   });
 });
 
+app.get('/api/hotels/detalle', (req, res) => {
+  const {valor}= req.query;
+  const consulta = 'SELECT h.id, h.nombre, h.estrellas, h.descripcion, h.imagen, h.direccion, h.categoria FROM hoteles h ';
+  const params = [];
+  if (valor) { where += ' where h.id= ?'; params.push(`${valor}`); }
+  db.query(consulta, params
+    [valor], (err, results) => {
+    if (err) return res.status(500).json({ error: err.message });
+    res.json(results);
+  });
+});
+
 app.listen(port, () => console.log(`🚀 Servidor en http://localhost:${port}`));
