@@ -22,7 +22,7 @@ app.use('/images', express.static(path.join(__dirname, 'images')));
 const db = mysql.createConnection({
   host: process.env.DB_HOST || 'localhost',
   user: process.env.DB_USER || 'root',
-  password: process.env.DB_PASS || 'Jhoselin712.',
+  password: process.env.DB_PASS || 'root',
   database: process.env.DB_NAME || 'hotelesBA'
 });
 
@@ -179,6 +179,18 @@ app.get('/api/hotels', (req, res) => {
 
 app.get('/api/barrio', (req, res) => {
   db.query('SELECT nombre FROM barrio ORDER BY nombre ASC', (err, results) => {
+    if (err) return res.status(500).json({ error: err.message });
+    res.json(results);
+  });
+});
+
+app.get('/api/hotels/detalle', (req, res) => {
+  const {valor}= req.query;
+  const consulta = 'SELECT h.id, h.nombre, h.estrellas, h.descripcion, h.imagen, h.direccion, h.categoria FROM hoteles h ';
+  const params = [];
+  if (valor) { where += ' where h.id= ?'; params.push(`${valor}`); }
+  db.query(consulta, params
+    [valor], (err, results) => {
     if (err) return res.status(500).json({ error: err.message });
     res.json(results);
   });
