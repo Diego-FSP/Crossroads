@@ -1,20 +1,53 @@
-export function HotelCard(){
-    return(
-        <template id="hotelCardTpl">
-            <article class="hotel-card">
-                <div class="media">
-                <img src="" alt="hotel" />
-                <div class="rating"></div>
+import { useEffect, useState } from 'react';
+
+export function HotelCard() {
+  const API_BASE = 'http://localhost:3000/api';
+  const [hoteles, setHoteles] = useState([]);
+
+  useEffect(() => {
+    async function loadHotels() {
+      try {
+        const res = await fetch(`${API_BASE}/hotels`);
+        const data = await res.json();
+        setHoteles(data.hotels || []);
+      } catch (err) {
+        console.error('Error al cargar hoteles:', err);
+        setHoteles([]);
+      }
+    }
+    loadHotels();
+  }, []);
+
+  return (
+    <main className='container' >
+    <section class="cards-area">
+        <div className="hotel-cards">
+        {hoteles.length === 0 ? (
+            <p>No se encontraron hoteles.</p>
+        ) : (
+            hoteles.map((h) => (
+            <article className="hotel-card" key={h.id}>
+                <div className="media">
+                <img
+                    src={h.imagen || 'https://via.placeholder.com/400x300'}
+                    alt={h.nombre}
+                />
+                <div className="rating">⭐️{h.estrellas || 0}</div>
                 </div>
-                <div class="card-body">
-                <h3 class="hotel-name"></h3>
-                <p class="hotel-sector"></p>
-                <div class="meta">
-                    <span class="price"></span>
-                    <button class="viewBtn">Ver oferta</button>
+                <div className="card-body">
+                <h3 className="hotel-name">{h.nombre}</h3>
+                <p className="hotel-sector">{h.barrio}</p>
+                <div className="meta">
+                    <span className="price">{h.precio ? `$${h.precio}` : 'Sin precio'}</span>
+                    <button className="viewBtn">Ver oferta</button>
                 </div>
                 </div>
             </article>
-        </template>
-    )
+            ))
+        )}
+        </div>
+    </section>
+    </main>
+  );
 }
+// <div class="pagination" id="pagination"></div>

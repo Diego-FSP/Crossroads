@@ -1,24 +1,39 @@
-:root{
+#root{
   --bg:#0b0f12;
   --card:#0f1720;
   --muted:#98a0a6;
   --accent:#00aaff;
   --accent-2:#9b59ff;
   --glass: rgba(255,255,255,0.03);
+  width: 100%;
 }
 *{box-sizing:border-box}
 body{
-  margin:0;font-family: Inter,system-ui,Segoe UI,Arial;
+  --bg:#0b0f12;
+  --card:#0f1720;
+  --muted:#98a0a6;
+  --accent:#00aaff;
+  --accent-2:#9b59ff;
+  --glass: rgba(255,255,255,0.03);
+  margin:0;
+  font-family: Inter,system-ui,Segoe UI,Arial;
   background:var(--bg);
-  color:#e6eef6
+  color:#e6eef6;
 }
+
+#Inicio{
+  margin-top: 100px;
+  max-width: 100%;
+}
+
 .site-header{
   display:flex;
   align-items:center;
   justify-content:space-between;
+  width: 100%;
   padding:18px 36px;
   border-bottom:1px solid rgba(255,255,255,0.03);
-  position:sticky;
+  position:fixed;
   top:0;background:linear-gradient(180deg, rgba(11,15,18,0.9), rgba(11,15,18,0.6));z-index:50
 }
 .brand{
@@ -66,9 +81,7 @@ body{
   color:#062331
 }
 .container{
-  max-width:1200px;
-  margin:36px auto;
-  padding:0 20px
+  width: 100%;
 }
 .hero{
   padding:32px;
@@ -80,8 +93,10 @@ body{
   font-size:28px
 }
 .cards-area{
-  display:grid;
-  grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:20px
+  display:flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  width: 100%;
 }
 .hotel-card{ 
   background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));

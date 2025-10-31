@@ -1,6 +1,6 @@
 export function Main(){
     return(
-        <main class="container">
+        <main class="container" id="Inicio">
         <section class="hero">
             <div>
                 <h1>Descubrí CABA — lujo, diseño y experiencias</h1>
@@ -16,11 +16,7 @@ export function Main(){
             </div>
         </section>
 
-        <section class="cards-area" id="cardsArea">
-            
-        </section>
-
-        <div class="pagination" id="pagination"></div>
+        
         </main>
     )
 }
