@@ -1,7 +1,7 @@
 export function Barra(){
     return(
         <header class="site-header">
-        <div class="brand">CABA<span class="accent">Stay</span></div>
+        <div class="brand">CABA<span class="accent">Crossroads</span></div>
         <nav class="top-controls">
             <input id="searchInput" placeholder="Buscar hotel, barrio o palabra clave..." />
             <select id="sectorSelect">
