@@ -121,7 +121,7 @@ body{
 .rating{
   position:absolute;
   right:10px;top:10px;
-  background:linear-gradient(90deg,var(--accent),var(--accent-2));
+  background:linear-gradient(90deg,#c985da70,#c7babccb);
   padding:6px 8px;
   border-radius:999px;
   font-weight:700;
