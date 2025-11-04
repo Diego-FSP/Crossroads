@@ -77,12 +77,12 @@ body{
   color:#062331
 }
 
-
 .cards-area{
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
   align-items:center;
+  margin-top: 90px;
 }
 .HotelCarta{ 
   background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
@@ -130,11 +130,13 @@ body{
 
 #Inicio{
   display: flex;
-  margin: 90px 50px;
+  margin: 20px 20px;
+  margin-top: 95px;
 }
 
 .parrafo{
   width: 60%;
+  margin: 20px;
 }
 
 .conjunto h1{
@@ -279,4 +281,9 @@ body{
   width: 300px;
   height: 300px; 
   border-radius: 50%; 
+}
+
+.filters{
+  margin-top: -60px;
+  margin-left: 40px;
 }
