@@ -88,7 +88,7 @@ body{
   background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
   border-radius:14px;
   width: 300px;
-  height: 400px;
+  height: 440px;
   box-shadow:0 6px 18px rgba(0,0,0,0.6);
   margin: 25px auto;
   transition:transform .22s ease, box-shadow .22s ease;
@@ -170,6 +170,12 @@ body{
   background-color: rgba(255, 0, 55, 0.507);
   box-shadow: 0px 0px 50px rgb(255, 0, 55);
   animation: 0.5s luz normal;
+  .NombreHotel{
+    color: rgba(255, 81, 0, 0.897);
+  }
+  .price{
+    color: rgba(255, 81, 0, 0.897);
+  }
 }
 
 #p1{
@@ -286,4 +292,20 @@ body{
 .filters{
   margin-top: -60px;
   margin-left: 40px;
+}
+
+.CuerpoCarta{
+  text-align: center;
+}
+
+.PaginasCard{
+  margin: 50px 33%;
+  button{
+    background-color: #ff0040;
+  }
+}
+
+.price{
+  color: #e100ff;
+  font-size: 20px;
 }

@@ -121,14 +121,19 @@ export function HotelCard() {
                   />
                   <div className="rating">{'⭐️'.repeat(h.estrellas || 0)}</div>
                 </div>
-                <div className="card-body">
-                  <h3 className="hotel-name">{h.nombre}</h3>
+                <div className="CuerpoCarta">
+                  <h3 className="NombreHotel">{h.nombre}</h3>
                   <p className="hotel-sector">{h.barrio}</p>
                   <div className="meta">
                     <span className="price">
-                      {h.precio ? `$${h.precio}` : 'Sin precio'}
+                      <strong>Desde: {h.precio}$</strong>
                     </span>
-                    <button className="viewBtn">Ver oferta</button>
+                  </div>
+                    <span>
+                      Categoria: {h.categoria}
+                    </span>
+                  <div>
+                      {h.direccion}
                   </div>
                 </div>
               </article>
@@ -139,7 +144,7 @@ export function HotelCard() {
 
       {/* 🔹 Paginación */}
       {totalPages > 1 && (
-        <div className="pagination">
+        <div className="PaginasCard">
           {Array.from({ length: totalPages }).map((_, i) => {
             const page = i + 1;
             return (
