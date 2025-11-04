@@ -293,6 +293,12 @@ body{
   margin-top: -60px;
   margin-left: 40px;
 }
+#buscador, #listaBarrios, #listaCalificaciones{
+  font-size: 15px;
+  padding: 10px;
+  background-color: #422155;
+  border: 3px solid rgb(37, 6, 73);
+}
 
 .CuerpoCarta{
   text-align: center;

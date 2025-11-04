@@ -69,7 +69,7 @@ export function HotelCard() {
     <main className="container">
       {/* Filtros */}
       <section className="filters">
-        <input
+        <input id="buscador"
           type="text"
           placeholder="Buscar hotel..."
           value={query}
@@ -79,14 +79,14 @@ export function HotelCard() {
           }}
         />
 
-        <select
+        <select id="listaBarrios"
           value={barrio}
           onChange={(e) => {
             setCurrentPage(1);
             setBarrio(e.target.value);
           }}
         >
-          <option value="">Todos los barrios</option>
+          <option  value="">Todos los barrios</option>
           {barrios.map((b) => (
             <option key={b.id || b.nombre} value={b.nombre}>
               {b.nombre}
@@ -94,7 +94,7 @@ export function HotelCard() {
           ))}
         </select>
 
-        <select
+        <select id="listaCalificaciones"
           value={sort}
           onChange={(e) => {
             setCurrentPage(1);
