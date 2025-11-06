@@ -315,3 +315,27 @@ body{
   color: #e100ff;
   font-size: 20px;
 }
+
+#RegistroTargeta{
+  width: 500px;
+  margin: auto;
+}
+
+.Targeta{
+  background-color: #422155;
+  display: block;
+  flex-wrap:wrap;
+  .BotonCerrar{
+    text-align: right;
+    position:relative;
+  }
+}
+
+#RegistroForm{
+  margin: 50px 10%;
+}
+
+#TituloForm{
+  display: flex;
+  margin-left: 50%;
+}
