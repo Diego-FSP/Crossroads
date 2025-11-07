@@ -77,18 +77,18 @@ body{
   color:#062331
 }
 
-
 .cards-area{
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
   align-items:center;
+  margin-top: 90px;
 }
 .HotelCarta{ 
   background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
   border-radius:14px;
   width: 300px;
-  height: 400px;
+  height: 440px;
   box-shadow:0 6px 18px rgba(0,0,0,0.6);
   margin: 25px auto;
   transition:transform .22s ease, box-shadow .22s ease;
@@ -121,7 +121,7 @@ body{
 .rating{
   position:absolute;
   right:10px;top:10px;
-  background:linear-gradient(90deg,var(--accent),var(--accent-2));
+  background:linear-gradient(90deg,#c985da70,#c7babccb);
   padding:6px 8px;
   border-radius:999px;
   font-weight:700;
@@ -130,11 +130,13 @@ body{
 
 #Inicio{
   display: flex;
-  margin: 90px 50px;
+  margin: 20px 20px;
+  margin-top: 95px;
 }
 
 .parrafo{
   width: 60%;
+  margin: 20px;
 }
 
 .conjunto h1{
@@ -168,6 +170,12 @@ body{
   background-color: rgba(255, 0, 55, 0.507);
   box-shadow: 0px 0px 50px rgb(255, 0, 55);
   animation: 0.5s luz normal;
+  .NombreHotel{
+    color: rgba(255, 81, 0, 0.897);
+  }
+  .price{
+    color: rgba(255, 81, 0, 0.897);
+  }
 }
 
 #p1{
@@ -279,4 +287,55 @@ body{
   width: 300px;
   height: 300px; 
   border-radius: 50%; 
+}
+
+.filters{
+  margin-top: -60px;
+  margin-left: 40px;
+}
+#buscador, #listaBarrios, #listaCalificaciones{
+  font-size: 15px;
+  padding: 10px;
+  background-color: #422155;
+  border: 3px solid rgb(37, 6, 73);
+}
+
+.CuerpoCarta{
+  text-align: center;
+}
+
+.PaginasCard{
+  margin: 50px 33%;
+  button{
+    background-color: #ff0040;
+  }
+}
+
+.price{
+  color: #e100ff;
+  font-size: 20px;
+}
+
+#RegistroTargeta{
+  width: 500px;
+  margin: auto;
+}
+
+.Targeta{
+  background-color: #422155;
+  display: block;
+  flex-wrap:wrap;
+  .BotonCerrar{
+    text-align: right;
+    position:relative;
+  }
+}
+
+#RegistroForm{
+  margin: 50px 10%;
+}
+
+#TituloForm{
+  display: flex;
+  margin-left: 50%;
 }

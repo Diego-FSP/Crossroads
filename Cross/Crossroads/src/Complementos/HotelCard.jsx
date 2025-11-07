@@ -2,52 +2,163 @@ import { useEffect, useState } from 'react';
 
 export function HotelCard() {
   const API_BASE = 'http://localhost:3000/api';
-  const [hoteles, setHoteles] = useState([]);
 
+  // 🔹 Estados
+  const [hoteles, setHoteles] = useState([]);
+  const [barrios, setBarrios] = useState([]);
+  const [barrio, setBarrio] = useState('');
+  const [query, setQuery] = useState('');
+  const [sort, setSort] = useState('recommended');
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalResults, setTotalResults] = useState(0);
+  const perPage = 12;
+
+  // ------------------------
+  // 🔹 Cargar barrios
+  // ------------------------
+  useEffect(() => {
+    async function loadSectors() {
+      try {
+        const res = await fetch(`${API_BASE}/barrio`);
+        const data = await res.json();
+        setBarrios(data);
+      } catch (err) {
+        console.error('Error al cargar barrios:', err);
+      }
+    }
+    loadSectors();
+  }, []);
+
+  // ------------------------
+  // 🔹 Cargar hoteles
+  // ------------------------
   useEffect(() => {
     async function loadHotels() {
       try {
-        const res = await fetch(`${API_BASE}/hotels`);
+        const params = new URLSearchParams({
+          q: query,
+          barrio,
+          sort: sort === 'rating_desc' ? 'rating' : '',
+          page: currentPage,
+          perPage,
+        });
+
+        const res = await fetch(`${API_BASE}/hotels?${params}`);
         const data = await res.json();
+
         setHoteles(data.hotels || []);
+        setTotalResults(data.total || data.hotels?.length || 0);
       } catch (err) {
         console.error('Error al cargar hoteles:', err);
         setHoteles([]);
       }
     }
-    loadHotels();
-  }, []);
 
+    loadHotels();
+  }, [query, barrio, sort, currentPage]);
+
+  // ------------------------
+  // 🔹 Calcular total de páginas
+  // ------------------------
+  const totalPages = Math.ceil(totalResults / perPage);
+
+  // ------------------------
+  // 🔹 Renderizado JSX
+  // ------------------------
   return (
-    <main className='container' >
-    <section class="cards-area">
+    <main className="container">
+      {/* Filtros */}
+      <section className="filters">
+        <input id="buscador"
+          type="text"
+          placeholder="Buscar hotel..."
+          value={query}
+          onChange={(e) => {
+            setCurrentPage(1);
+            setQuery(e.target.value);
+          }}
+        />
+
+        <select id="listaBarrios"
+          value={barrio}
+          onChange={(e) => {
+            setCurrentPage(1);
+            setBarrio(e.target.value);
+          }}
+        >
+          <option  value="">Todos los barrios</option>
+          {barrios.map((b) => (
+            <option key={b.id || b.nombre} value={b.nombre}>
+              {b.nombre}
+            </option>
+          ))}
+        </select>
+
+        <select id="listaCalificaciones"
+          value={sort}
+          onChange={(e) => {
+            setCurrentPage(1);
+            setSort(e.target.value);
+          }}
+        >
+          <option value="recommended">Recomendados</option>
+          <option value="rating_desc">Mejor calificación</option>
+        </select>
+      </section>
+
+      {/* Tarjetas de hoteles */}
+      <section className="cards-area">
         <div className="cartasHoteles">
-        {hoteles.length === 0 ? (
+          {hoteles.length === 0 ? (
             <p>No se encontraron hoteles.</p>
-        ) : (
+          ) : (
             hoteles.map((h) => (
-            <article className="HotelCarta" key={h.id}>
+              <article className="HotelCarta" key={h.id}>
                 <div className="media">
-                <img
-                    src={h.imagen || 'https://via.placeholder.com/400x300'}
+                  <img
+                    src={h.imagen || 'https://via.placeholder.com/400x300?text=Sin+imagen'}
                     alt={h.nombre}
-                />
-                <div className="rating"> {'⭐️'.repeat(h.estrellas)}</div>
+                  />
+                  <div className="rating">{'⭐️'.repeat(h.estrellas || 0)}</div>
                 </div>
-                <div className="card-body">
-                <h3 className="hotel-name">{h.nombre}</h3>
-                <p className="hotel-sector">{h.barrio}</p>
-                <div className="meta">
-                    <span className="price">{h.precio ? `$${h.precio}` : 'Sin precio'}</span>
-                    <button className="viewBtn">Ver oferta</button>
+                <div className="CuerpoCarta">
+                  <h3 className="NombreHotel">{h.nombre}</h3>
+                  <p className="hotel-sector">{h.barrio}</p>
+                  <div className="meta">
+                    <span className="price">
+                      <strong>Desde: {h.precio}$</strong>
+                    </span>
+                  </div>
+                    <span>
+                      Categoria: {h.categoria}
+                    </span>
+                  <div>
+                      {h.direccion}
+                  </div>
                 </div>
-                </div>
-            </article>
+              </article>
             ))
-        )}
+          )}
         </div>
-    </section>
+      </section>
+
+      {/* 🔹 Paginación */}
+      {totalPages > 1 && (
+        <div className="PaginasCard">
+          {Array.from({ length: totalPages }).map((_, i) => {
+            const page = i + 1;
+            return (
+              <button
+                key={page}
+                className={page === currentPage ? 'active' : ''}
+                onClick={() => setCurrentPage(page)}
+              >
+                {page}
+              </button>
+            );
+          })}
+        </div>
+      )}
     </main>
   );
 }
-// <div class="pagination" id="pagination"></div>
