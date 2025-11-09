@@ -1,6 +1,6 @@
 export function Main(){
     return(
-        <main class="contenedor" >
+        <main className="contenedor" >
         <section id="Inicio">
             <div className="parrafo">
                 <h1>Descubrí CABA — lujo, diseño y experiencias</h1>

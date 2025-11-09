@@ -22,7 +22,7 @@ app.use('/images', express.static(path.join(__dirname, 'images')));
 const db = mysql.createConnection({
   host: process.env.DB_HOST || 'localhost',
   user: process.env.DB_USER || 'root',
-  password: process.env.DB_PASS || 'Jhoselin712.',
+  password: process.env.DB_PASS || 'root',
   database: process.env.DB_NAME || 'hotelesBA'
 });
 
@@ -193,7 +193,7 @@ app.get('/api/hotels', (req, res) => {
   `;
   const dataSql = `
     SELECT h.id, h.nombre, h.estrellas, h.descripcion, h.imagen,
-           h.direccion, h.categoria, b.nombre AS barrio
+           h.direccion, h.precio, h.categoria, b.nombre AS barrio
     FROM hoteles h
     JOIN barrio b ON h.barrio_id = b.barrio_id
     ${where}
@@ -216,6 +216,13 @@ app.get('/api/hotels', (req, res) => {
       }));
       res.json({ hotels, total });
     });
+  });
+});
+
+app.get('/api/barrio', (req, res) => {
+  db.query('SELECT nombre FROM barrio ORDER BY nombre ASC', (err, results) => {
+    if (err) return res.status(500).json({ error: err.message });
+    res.json(results);
   });
 });
 

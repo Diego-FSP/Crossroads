@@ -16,7 +16,6 @@ function App() {
       <Barra />
       <Main></Main>
       <HotelCard></HotelCard>
-      <Registro></Registro>
     </>
   )
 }
