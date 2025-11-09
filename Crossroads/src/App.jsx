@@ -4,7 +4,6 @@ import {Barra} from './Complementos/siteHeader.jsx'
 import {Main} from './Complementos/Main.jsx'
 import {HotelCard} from './Complementos/HotelCard.jsx'
 import { Raton } from './Complementos/raton.jsx';
-import {Registro} from './Complementos/Registro.jsx'
 //import {Metodos} from './Metodos.jsx'
 
 
