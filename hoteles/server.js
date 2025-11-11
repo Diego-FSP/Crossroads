@@ -20,9 +20,9 @@ app.use('/images', express.static(path.join(__dirname, 'images')));
 
 // 🔹 Conexión MySQL
 const db = mysql.createConnection({
-  host: process.env.DB_HOST || 'localhost',
-  user: process.env.DB_USER || 'root',
-  password: process.env.DB_PASS || 'root',
+  host: process.env.DB_HOST || '127.0.0.1',
+  user: process.env.DB_USER || '5to_agbd',
+  password: process.env.DB_PASS || 'Trigg3rs!',
   database: process.env.DB_NAME || 'hotelesBA'
 });
 
@@ -225,5 +225,16 @@ app.get('/api/barrio', (req, res) => {
     res.json(results);
   });
 });
+
+app.get('/api/hotelD', (req, res) => {
+  let {id} = req.query;
+  let consulta = 'SELECT h.id, h.nombre, h.estrellas, h.descripcion, h.imagen, h.direccion, h.precio, h.categoria FROM hoteles h';
+  if(id) consulta += ' where h.id='+ id;
+  db.query(consulta, (err, results) => {
+    if (err) return res.status(500).json({ error: err.message });
+    res.json(results);
+  });
+});
+
 
 app.listen(port, () => console.log(`🚀 Servidor corriendo en http://localhost:${port}`));
