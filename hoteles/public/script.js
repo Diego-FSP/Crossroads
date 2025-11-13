@@ -1,5 +1,5 @@
 // script.js — Cliente frontend de HotelesBA
-const API_BASE = 'http://localhost:3000/api';
+const API_BASE = 'http://localhost:3000/api'; // Cambia la URL según tu API
 
 const searchInput = document.getElementById('searchInput');
 const barrioSelect = document.getElementById('sectorSelect');
@@ -162,8 +162,15 @@ registerForm.addEventListener('submit', async (e) => {
   const password = registerForm.password.value.trim();
   const confirmPassword = registerForm.confirmPassword.value.trim();
 
+  // Validación de las contraseñas
   if (password !== confirmPassword) {
     alert('Las contraseñas no coinciden.');
+    return;
+  }
+
+  // Verificación del formato del email
+  if (!validateEmail(email)) {
+    alert('Por favor, ingrese un correo electrónico válido.');
     return;
   }
 
@@ -186,53 +193,11 @@ registerForm.addEventListener('submit', async (e) => {
   }
 });
 
-// ------------------------
-// 🔹 Modal de inicio de sesión
-// ------------------------
-const loginModal = document.getElementById('loginModal');
-const openLoginBtn = document.getElementById('loginBtn');
-const closeLoginBtn = document.getElementById('closeLoginModalBtn');
-const loginForm = document.getElementById('loginForm');
-
-openLoginBtn.addEventListener('click', () => {
-  loginModal.style.display = 'block';
-});
-
-closeLoginBtn.addEventListener('click', () => {
-  loginModal.style.display = 'none';
-});
-
-window.addEventListener('click', (event) => {
-  if (event.target === loginModal) {
-    loginModal.style.display = 'none';
-  }
-});
-
-// 🔹 Login normal (sin restricciones)
-loginForm.addEventListener('submit', async (e) => {
-  e.preventDefault();
-
-  const email = loginForm.loginEmail.value.trim();
-  const password = loginForm.loginPassword.value.trim();
-
-  try {
-    const res = await fetch(`${API_BASE}/login`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email, password })
-    });
-
-    const data = await res.json();
-
-    if (!res.ok) throw new Error(data.error || 'Error al iniciar sesión');
-
-    alert('Inicio de sesión exitoso: ' + data.email);
-    loginModal.style.display = 'none';
-    loginForm.reset();
-  } catch (err) {
-    alert(err.message);
-  }
-});
+// Función para validar el email
+function validateEmail(email) {
+  const re = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
+  return re.test(email);
+}
 
 // ------------------------
 // 🔹 Inicialización
