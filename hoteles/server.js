@@ -47,119 +47,41 @@ const transporter = nodemailer.createTransport({
 });
 
 
-// ================================
-// Registro con verificación
-// ================================
-app.post('/api/register', async (req, res) => {
+// Endpoint para iniciar sesión
+app.post('/login', (req, res) => {
   const { email, password } = req.body;
-  if (!email || !password)
-    return res.status(400).json({ error: 'Faltan datos' });
 
-  try {
-    const [exist] = await db
-      .promise()
-      .query('SELECT * FROM usuario WHERE email=?', [email]);
-    if (exist.length > 0)
-      return res.status(400).json({ error: 'El correo ya está registrado' });
+  const query = 'SELECT * FROM usuario WHERE email = ?';
+  db.query(query, [email], (err, results) => {
+      if (err) return res.status(500).send('Error al realizar la consulta');
+      if (results.length === 0) return res.status(400).send('Usuario no encontrado');
 
-    const hash = await bcrypt.hash(password, 10);
-    const token = crypto.randomBytes(32).toString('hex');
+      const user = results[0];
+      bcrypt.compare(password, user.pass, (err, isMatch) => {
+          if (err) return res.status(500).send('Error de autenticación');
+          if (!isMatch) return res.status(400).send('Contraseña incorrecta');
 
-    await db
-      .promise()
-      .query(
-        'INSERT INTO usuario (email, pass, verificado, token) VALUES (?, ?, 0, ?)',
-        [email, hash, token]
-      );
-
-    const link = `http://localhost:${port}/api/verificar?token=${token}`;
-
-    await transporter.sendMail({
-      from: `"HotelesBA" <${process.env.EMAIL_USER}>`,
-      to: email,
-      subject: 'Verificación de cuenta - HotelesBA',
-      html: `
-        <h2>Bienvenido a HotelesBA</h2>
-        <p>Haz clic en el siguiente enlace para verificar tu cuenta:</p>
-        <a href="${link}" target="_blank">${link}</a>
-        <p>Si no solicitaste esta cuenta, ignora este mensaje.</p>
-      `
-    });
-
-    res.json({
-      message: 'Registro exitoso. Revisa tu correo para verificar tu cuenta.'
-    });
-  } catch (err) {
-    console.error('❌ Error al registrar:', err);
-    res.status(500).json({ error: 'Error interno del servidor' });
-  }
+          // Crear token JWT
+          const token = jwt.sign({ id: user.idUsuario }, 'secreto', { expiresIn: '1h' });
+          res.status(200).json({ token });
+      });
+  });
 });
 
-// ================================
-// Verificación de cuenta
-// ================================
-app.get('/api/verificar', async (req, res) => {
-  const { token } = req.query;
-  if (!token) return res.send('<h3>Token inválido.</h3>');
+// Endpoint para registrar un usuario
+app.post('/register', (req, res) => {
+  const { email, password, nombre, telefono, documento } = req.body;
 
-  try {
-    const [rows] = await db
-      .promise()
-      .query('SELECT * FROM usuario WHERE token=?', [token]);
-    if (rows.length === 0)
-      return res.send('<h3>Token inválido o ya verificado.</h3>');
+  // Encriptar la contraseña
+  bcrypt.hash(password, 10, (err, hashedPassword) => {
+      if (err) return res.status(500).send('Error al encriptar la contraseña');
 
-    await db
-      .promise()
-      .query('UPDATE usuario SET verificado=1, token=NULL WHERE token=?', [
-        token
-      ]);
-
-    res.send(`
-      <html>
-        <head><meta charset="UTF-8"><title>Cuenta verificada</title></head>
-        <body style="text-align:center;font-family:sans-serif;margin-top:50px">
-          <h2>✅ Cuenta verificada correctamente</h2>
-          <p>Ya puedes iniciar sesión en HotelesBA.</p>
-        </body>
-      </html>
-    `);
-  } catch (err) {
-    console.error('❌ Error al verificar:', err);
-    res.send('<h3>Error al verificar la cuenta.</h3>');
-  }
-});
-
-// ================================
-// Login (solo verificados)
-// ================================
-app.post('/api/login', async (req, res) => {
-  const { email, password } = req.body;
-  if (!email || !password)
-    return res.status(400).json({ error: 'Faltan datos' });
-
-  try {
-    const [rows] = await db
-      .promise()
-      .query('SELECT * FROM usuario WHERE email=?', [email]);
-    if (rows.length === 0)
-      return res.status(400).json({ error: 'Usuario no encontrado' });
-
-    const user = rows[0];
-
-    if (user.verificado === 0)
-      return res
-        .status(403)
-        .json({ error: 'Cuenta no verificada. Revisa tu correo.' });
-
-    const match = await bcrypt.compare(password, user.pass);
-    if (!match) return res.status(401).json({ error: 'Contraseña incorrecta' });
-
-    res.json({ message: 'Inicio de sesión exitoso', email: user.email });
-  } catch (err) {
-    console.error('❌ Error al iniciar sesión:', err);
-    res.status(500).json({ error: 'Error interno del servidor' });
-  }
+      const query = 'INSERT INTO usuario (nombre, email, pass, telefono, documento) VALUES (?, ?, ?, ?, ?)';
+      db.query(query, [nombre, email, hashedPassword, telefono, documento], (err, results) => {
+          if (err) return res.status(500).send('Error al registrar el usuario');
+          res.status(200).send('Usuario registrado correctamente');
+      });
+  });
 });
 
 // ================================

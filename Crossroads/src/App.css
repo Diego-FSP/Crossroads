@@ -338,7 +338,7 @@ body{
 .Targeta{
   margin: 100px auto;
   width: 500px;
-  height: 400px;
+  height: 600px;
   background-color: #422155;
   display: block;
   flex-wrap:wrap;
@@ -346,7 +346,7 @@ body{
 }
 
 #RegistroForm, #SesionForm{
-  margin: 5% 10%;
+  margin: 5% 5%;
   div{
     margin: 10% 5%;
   }
