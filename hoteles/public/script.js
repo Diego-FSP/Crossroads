@@ -1,5 +1,5 @@
 // script.js — Cliente frontend de HotelesBA
-const API_BASE = 'http://localhost:3000/api'; // Cambia la URL según tu API
+const API_BASE = 'http://localhost:3000'; // 🔥 FIX: antes decía /api
 
 const searchInput = document.getElementById('searchInput');
 const barrioSelect = document.getElementById('sectorSelect');
@@ -18,7 +18,7 @@ let perPage = 12;
 // ------------------------
 async function loadSectors() {
   try {
-    const res = await fetch(`${API_BASE}/barrio`);
+    const res = await fetch(`${API_BASE}/api/barrio`);
     const data = await res.json();
 
     const defaultOpt = document.createElement('option');
@@ -58,7 +58,7 @@ async function loadHotels(page = 1) {
   });
 
   try {
-    const res = await fetch(`${API_BASE}/hotels?${params}`);
+    const res = await fetch(`${API_BASE}/api/hotels?${params}`);
     const data = await res.json();
 
     console.log('Hoteles recibidos:', data.hotels);
@@ -162,13 +162,11 @@ registerForm.addEventListener('submit', async (e) => {
   const password = registerForm.password.value.trim();
   const confirmPassword = registerForm.confirmPassword.value.trim();
 
-  // Validación de las contraseñas
   if (password !== confirmPassword) {
     alert('Las contraseñas no coinciden.');
     return;
   }
 
-  // Verificación del formato del email
   if (!validateEmail(email)) {
     alert('Por favor, ingrese un correo electrónico válido.');
     return;
@@ -183,11 +181,14 @@ registerForm.addEventListener('submit', async (e) => {
 
     const data = await res.json();
 
-    if (!res.ok) throw new Error(data.error || 'Error al registrar');
+    if (!res.ok) {
+      throw new Error(data.error || data.msg || 'Error al registrar');
+    }
 
-    alert(`${data.message}\nRevisa tu correo para verificar tu cuenta.`);
+    alert(`${data.msg}\nRevisa tu correo para verificar tu cuenta.`);
     registerModal.style.display = 'none';
     registerForm.reset();
+
   } catch (err) {
     alert(err.message);
   }
