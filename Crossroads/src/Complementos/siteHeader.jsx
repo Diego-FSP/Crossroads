@@ -1,9 +1,10 @@
-import { useRef } from "react"
+import { useRef, useState } from "react"
 import axios from 'axios';
 
 export function Barra(){
     const AreaRegistro = useRef(null);
     const AreaSesion = useRef(null);
+    const [mensajeError, setMensajeError] = useState("");
 
     const abrirRegistro=() =>{
         console.log("RegistroActivado")
@@ -34,7 +35,7 @@ export function Barra(){
         const password = e.target.loginPassword.value;
 
         try {
-            const response = await axios.post('http://localhost:5000/login', { email, password });
+            const response = await axios.post('http://localhost:3000/login', { email, password });
             const token = response.data.token;
             localStorage.setItem('token', token);  // Guardar el token en el localStorage
             alert("Iniciado sesión exitosamente");

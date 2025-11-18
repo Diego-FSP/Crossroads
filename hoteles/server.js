@@ -10,7 +10,8 @@ const path = require('path');
 require('dotenv').config();
 
 const app = express();
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 5000;
+
 
 app.use(cors());
 app.use(express.static('public'));
@@ -20,9 +21,9 @@ app.use('/images', express.static(path.join(__dirname, 'images')));
 
 // 🔹 Conexión MySQL
 const db = mysql.createConnection({
-  host: process.env.DB_HOST || 'localhost',
-  user: process.env.DB_USER || 'root',
-  password: process.env.DB_PASS || 'Jhoselin712.',
+  host: process.env.DB_HOST || '127.0.0.1',
+  user: process.env.DB_USER || '5to_agbd',
+  password: process.env.DB_PASS || 'Trigg3rs!',
   database: process.env.DB_NAME || 'hotelesBA'
 });
 
