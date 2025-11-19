@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 
 export function HotelCard() {
-  const API_BASE = 'http://localhost:3000/api';
+  const API_BASE = 'http://localhost:5000/api';
 
   // 🔹 Estados
   const [hoteles, setHoteles] = useState([]);

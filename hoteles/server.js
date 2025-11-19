@@ -149,15 +149,41 @@ app.get('/api/barrio', (req, res) => {
   });
 });
 
+
 app.get('/api/hotelD', (req, res) => {
   let {id} = req.query;
-  let consulta = 'SELECT h.id, h.nombre, h.estrellas, h.descripcion, h.imagen, h.direccion, h.precio, h.categoria FROM hoteles h';
-  if(id) consulta += ' where h.id='+ id;
+  let consulta =
+  `SELECT h.id, h.nombre, h.estrellas, h.descripcion, h.imagen, h.direccion, h.precio, h.categoria 
+  FROM hoteles h
+  `;
+
+  if(id){
+    consulta += ' where h.id='+ id;
+  }
   db.query(consulta, (err, results) => {
     if (err) return res.status(500).json({ error: err.message });
     res.json(results);
+    console.log(results)
   });
 });
 
+app.get('/api/HotelTipoH', (req, res) => {
+  let {id} = req.query;
+  let consultaTH =
+  `select  T.idTipoHabitacion, T.id_hotel, T.nombre, T.descripcion, T.cantidadPersonas, T.metrosCuadrados, count(h.idTipoHabitacion) as 'Cantidad de Habitaciones'
+  from TipoHabitacion T
+  join Habitacion h on T.idTipoHabitacion = h.idTipoHabitacion
+  `;
+
+  if(id){
+    consultaTH+= 'where T.id_hotel='+ id+' ';
+    consultaTH+='group by T.idTipoHabitacion'
+  }
+  db.query(consultaTH, (err, results) => {
+    if (err) return res.status(500).json({ error: err.message });
+    res.json(results);
+    console.log(results)
+  });
+});
 
 app.listen(port, () => console.log(`🚀 Servidor corriendo en http://localhost:${port}`));
