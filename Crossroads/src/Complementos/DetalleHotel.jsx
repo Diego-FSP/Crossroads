@@ -12,9 +12,7 @@ export function DetalleHotel({ID}){
                 const param = new URLSearchParams({id: ID});
                 const res = await fetch(`${API_BASE}/HotelTipoH?${param}`);
                 const data = await res.json();
-                console.log(data);
                 setTipoHab(data || []);
-                console.log(tipoHab)
             }catch{
                 console.error('Error al cargar Tipo de habitaciones:', err);
                 setTipoHab([]);
@@ -31,9 +29,7 @@ export function DetalleHotel({ID}){
                 const param = new URLSearchParams({id: ID});
                 const res = await fetch(`${API_BASE}/hotelD?${param}`);
                 const data = await res.json();
-                console.log(data);
                 setHotel(data || []);
-                console.log(Hotel);
             }catch{
                 console.error('Error al cargar Hotel', err);
                 setHotel([]);
@@ -44,38 +40,52 @@ export function DetalleHotel({ID}){
     }, [ID]);
 
     return(
-        <div>
+        <div id='TargetaD'>
             {Hotel.length ==0 ? (<p>no se encontro el hotel</p>):
             (
                 Hotel.map((h)=>(
                     <div>
                         <div>
-                            <h1>{h.nombre}</h1>
+                            <div>
+                            <h1>{h.nombre}</h1> 
+                            <p>{'⭐️'.repeat(h.estrellas)}</p>
+                            </div>
                         </div>
-                        <div>
-                            <div className="rating">{'⭐️'.repeat(h.estrellas)}</div>
-                            <p><strong>Descripcion: </strong>{h.descripcion}</p>
-                            <p><strong>Direccion:</strong> {h.direccion}</p>
-                            <span className="price">
-                                <strong>Desde: {h.precio}$</strong>
-                            </span>
+                        <div id='AreaHD'>
+                            <div id='IMGDA'>
+                                <img
+                                    id='IMGD' 
+                                    src={h.imagen || 'https://via.placeholder.com/400x300?text=Sin+imagen'} 
+                                    alt="" />
+                            </div>
+                            <div id='InfoDH'>
+                                <p><strong>Descripcion: </strong>{h.descripcion}</p>
+                                <p><strong>Direccion:</strong> {h.direccion}</p>
+                                <p><strong>Categoria:</strong> {h.categoria}</p>
+                                <span >
+                                    <strong>Desde: {h.precio}$</strong>
+                                </span>
+
+                                <div className='AreaTipoH'>
+                                    {tipoHab.lenght == 0 ? (<p>no hay nada disponible</p>):
+                                    (
+                                        tipoHab.map((t)=>(
+                                            <div className="THabitacion">
+                                                <h2>Habitacion: {t.nombre}</h2>
+                                                <p><strong>Descripcion:</strong> {t.descripcion}</p>
+                                                <p><strong>Apto para:</strong> {t.cantidadPersonas} Personas</p>
+                                                <p><strong>Disponible:</strong> {t.CantidadHabitaciones} Habitaciones</p>
+                                                <p><strong>Espacio:</strong> {t.metrosCuadrados} m<sup>2</sup></p>
+                                            </div>
+                                        ))
+                                    )}
+                                </div>
+                            </div>
                         </div>
                     </div>
                 ))
             )}
             
-            {tipoHab.lenght == 0 ? (<p>no hay nada disponible</p>):
-            (
-                tipoHab.map((t)=>(
-                    <div className="THabitacion">
-                        <h2>Habitacion: {t.nombre}</h2>
-                        <p><strong>Descripcion:</strong> {t.descripcion}</p>
-                        <p><strong>Apto para:</strong> {t.cantidadPersonas} Personas</p>
-                        <p><strong>Disponible:</strong> {t.CantidadHabitaciones} Habitaciones</p>
-                        <p><strong>Espacio:</strong> {t.metrosCuadrados} m<sup>2</sup></p>
-                    </div>
-                ))
-            )}
         </div>
     )
 }

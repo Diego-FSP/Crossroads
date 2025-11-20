@@ -112,7 +112,7 @@ body{
   position:relative
 }
 
-.media img{
+.media img, #IMGD{
   width:100%;
   height:100%;
   object-fit:cover;
@@ -320,7 +320,7 @@ body{
   font-size: 20px;
 }
 
-#RegistroTargeta, #SecionTargeta{
+#RegistroTargeta, #SecionTargeta, .AreaDetalle{
   display: none;
   width: 100%;
   margin: auto;
@@ -365,4 +365,37 @@ body{
   font-size: 20px;
   border-radius: 50%;
   margin-left: 33.5%;
+}
+
+.AreaTipoH{
+  display: flex;
+}
+
+#AreaHD{
+  display: flex;
+  overflow-y: auto;
+  margin: auto 30px;
+}
+#InfoDH{
+  overflow-y: auto;
+  height: 400px;
+}
+.THabitacion{
+  margin: auto 50px;
+}
+#TargetaD{
+  width: 90%;
+  height: 100%;
+  background-color: #062331;
+}
+
+#IMGDA{
+  width: 400px;
+  height: 400px;
+  overflow:hidden;
+  position:relative;
+}
+
+#InfoDH, #IMGDA{
+  margin: auto 10px;
 }

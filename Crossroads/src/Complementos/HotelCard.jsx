@@ -68,7 +68,12 @@ export function HotelCard() {
   // 🔹 Renderizado JSX
   const abrirDetalle = (ID) =>{
     console.log("mostrar detalle del hotel n°"+ID)
+    AreaDetalle.current.style.display = "flex";
     setIDH(ID);
+  }
+  const cerrarDetalle =() =>{
+    AreaDetalle.current.style.display = "none";
+    setIDH(0);
   }
   // ------------------------
   return (
@@ -138,9 +143,6 @@ export function HotelCard() {
                     <span>
                       Categoria: {h.categoria}
                     </span>
-                  <div>
-                      {h.direccion}
-                  </div>
                 </div>
               </article>
             ))
@@ -165,7 +167,8 @@ export function HotelCard() {
           })}
         </div>
       )}
-      <div  ref={AreaDetalle}>
+      <div className='AreaDetalle'  ref={AreaDetalle}>
+        <button onClick={() =>cerrarDetalle()}></button>
         <DetalleHotel ID={IDH}></DetalleHotel>
       </div>
       
