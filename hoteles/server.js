@@ -170,7 +170,7 @@ app.get('/api/hotelD', (req, res) => {
 app.get('/api/HotelTipoH', (req, res) => {
   let {id} = req.query;
   let consultaTH =
-  `select  T.idTipoHabitacion, T.id_hotel, T.nombre, T.descripcion, T.cantidadPersonas, T.metrosCuadrados, count(h.idTipoHabitacion) as 'Cantidad de Habitaciones'
+  `select  T.idTipoHabitacion, T.id_hotel, T.nombre, T.descripcion, T.cantidadPersonas, T.metrosCuadrados, count(h.idTipoHabitacion) as 'CantidadHabitaciones'
   from TipoHabitacion T
   join Habitacion h on T.idTipoHabitacion = h.idTipoHabitacion
   `;
