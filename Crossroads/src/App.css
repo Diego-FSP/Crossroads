@@ -386,11 +386,11 @@ body{
 #TargetaD{
   width: 90%;
   height: 100%;
-  background-color: #062331;
+  background-color: #46091d;
 }
 
 #IMGDA{
-  width: 400px;
+  width: 600px;
   height: 400px;
   overflow:hidden;
   position:relative;
@@ -398,4 +398,12 @@ body{
 
 #InfoDH, #IMGDA{
   margin: auto 10px;
+}
+.Conjunto{
+  display: flex;
+  margin: auto 50px;
+}
+
+#MapaD{
+  height: 300px;
 }

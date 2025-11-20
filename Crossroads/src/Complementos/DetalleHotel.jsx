@@ -59,13 +59,26 @@ export function DetalleHotel({ID}){
                                     alt="" />
                             </div>
                             <div id='InfoDH'>
-                                <p><strong>Descripcion: </strong>{h.descripcion}</p>
-                                <p><strong>Direccion:</strong> {h.direccion}</p>
-                                <p><strong>Categoria:</strong> {h.categoria}</p>
-                                <span >
-                                    <strong>Desde: {h.precio}$</strong>
-                                </span>
-
+                                <div className='Conjunto'>
+                                    <div>
+                                        <p><strong>Descripcion: </strong>{h.descripcion}</p>
+                                        <p><strong>Direccion:</strong> {h.direccion}</p>
+                                        <p><strong>Categoria:</strong> {h.categoria}</p>
+                                        <span >
+                                            <strong>Desde: {h.precio}$</strong>
+                                        </span>
+                                    </div>
+                                    <div>
+                                        <iframe 
+                                        id='MapaD'
+                                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3284.2804884429565!2d-58.3799827!3d-34.5970682!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x95bccacba27001cd%3A0xe0f9b7c16c7447ab!2sEl%20Conquistador%20Hotel!5e0!3m2!1ses!2sar!4v1763647483018!5m2!1ses!2sar"
+                                        frameborder="0"
+                                        referrerpolicy="no-referrer-when-downgrade"
+                                        loading="lazy" >
+                                        </iframe>
+                                        
+                                    </div>
+                                </div>
                                 <div className='AreaTipoH'>
                                     {tipoHab.lenght == 0 ? (<p>no hay nada disponible</p>):
                                     (
