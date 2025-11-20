@@ -394,6 +394,7 @@ body{
   height: 400px;
   overflow:hidden;
   position:relative;
+  border-radius: 20px;
 }
 
 #InfoDH, #IMGDA{
@@ -401,9 +402,11 @@ body{
 }
 .Conjunto{
   display: flex;
-  margin: auto 50px;
+  margin: auto 40px;
 }
 
 #MapaD{
   height: 300px;
+  width: 400px;
+  border-radius: 20px;
 }

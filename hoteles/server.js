@@ -153,7 +153,7 @@ app.get('/api/barrio', (req, res) => {
 app.get('/api/hotelD', (req, res) => {
   let {id} = req.query;
   let consulta =
-  `SELECT h.id, h.nombre, h.estrellas, h.descripcion, h.imagen, h.direccion, h.precio, h.categoria 
+  `SELECT h.id, h.nombre, h.estrellas, h.descripcion, h.imagen, h.direccion, h.precio, h.categoria, h.mapa 
   FROM hoteles h
   `;
 
