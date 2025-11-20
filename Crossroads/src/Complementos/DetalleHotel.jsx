@@ -26,12 +26,12 @@ export function DetalleHotel({ID}){
 
     return(
         <div>
-            <div>hola, hay {tipoHab.length} disponibles</div>
+            <div>Hay {tipoHab.length} disponibles</div>
             {tipoHab.lenght === 0 ? (<p>no hay nada disponible</p>):
             (
                 tipoHab.map((t)=>(
-                    <div className="HotelCarta">
-                        <h1>habitacion: {t.nombre}</h1>
+                    <div className="THabitacion">
+                        <h2>habitacion: {t.nombre}</h2>
                         <p>descripcion: {t.descripcion}</p>
                     </div>
                 ))

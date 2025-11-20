@@ -1,4 +1,5 @@
-import { useEffect, useState } from 'react';
+import { useRef, useEffect, useState } from 'react';
+import {DetalleHotel} from './DetalleHotel.jsx'
 
 export function HotelCard() {
   const API_BASE = 'http://localhost:5000/api';
@@ -12,7 +13,8 @@ export function HotelCard() {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalResults, setTotalResults] = useState(0);
   const perPage = 12;
-
+  const AreaDetalle = useRef(null);
+  const [IDH, setIDH]= useState(1);
   // ------------------------
   // 🔹 Cargar barrios
   // ------------------------
@@ -64,6 +66,10 @@ export function HotelCard() {
 
   // ------------------------
   // 🔹 Renderizado JSX
+  const abrirDetalle = (ID) =>{
+    console.log("mostrar detalle del hotel n°"+ID)
+    setIDH(ID);
+  }
   // ------------------------
   return (
     <main className="container">
@@ -113,7 +119,7 @@ export function HotelCard() {
             <p>No se encontraron hoteles.</p>
           ) : (
             hoteles.map((h) => (
-              <article className="HotelCarta" key={h.id}>
+              <article className="HotelCarta" key={h.id} onClick={() =>abrirDetalle(h.id)}>
                 <div className="media">
                   <img
                     src={h.imagen || 'https://via.placeholder.com/400x300?text=Sin+imagen'}
@@ -159,6 +165,10 @@ export function HotelCard() {
           })}
         </div>
       )}
+      <div  ref={AreaDetalle}>
+        <DetalleHotel ID={IDH}></DetalleHotel>
+      </div>
+      
     </main>
   );
 }
