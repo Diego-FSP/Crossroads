@@ -1,10 +1,12 @@
-import { useRef, useState } from "react"
+import { useRef, useState, useEffect } from "react"
 import axios from 'axios';
 
 export function Barra(){
     const AreaRegistro = useRef(null);
     const AreaSesion = useRef(null);
     const [mensajeError, setMensajeError] = useState("");
+    const [user, setUser] = useState(null);
+    
 
     const abrirRegistro=() =>{
         console.log("RegistroActivado")
@@ -35,9 +37,13 @@ export function Barra(){
         const password = e.target.loginPassword.value;
 
         try {
-            const response = await axios.post('http://localhost:3000/login', { email, password });
+            const response = await axios.post('http://localhost:5000/login', { email, password });
             const token = response.data.token;
             localStorage.setItem('token', token);  // Guardar el token en el localStorage
+            const perfil = await axios.get("http://localhost:5000/profile", {
+                headers: { Authorization: `Bearer ${token}` }
+            });
+            setUser(perfil.data);
             alert("Iniciado sesión exitosamente");
             cerrarSesion();
         } catch (error) {
@@ -61,7 +67,7 @@ export function Barra(){
         }
 
         try {
-            await axios.post('http://localhost:5000/register', { email, password, nombre, telefono, documento });
+            await axios.post('http://localhost:5000/register', { nombre, email, password, telefono, documento });
             alert("Usuario registrado exitosamente");
             cerrarRegistro();
         } catch (error) {
@@ -69,15 +75,43 @@ export function Barra(){
         }
     };
 
+    useEffect(() => {
+        const token = localStorage.getItem("token");
+        if (!token) return;
+
+        axios.get("http://localhost:5000/profile", {
+            headers: { Authorization: `Bearer ${token}` }
+        })
+        .then(res => setUser(res.data))
+        .catch(err => console.log("Token inválido o expirado"));
+    }, []);
+
     return(
         <header className="site-header">
         <div className="brand">CABA<span className="accent">Crossroads</span></div>
         <nav className="top-controls">
-            <div className="user-auth-buttons">
-            <button className="auth-btn register-btn" id="openRegisterModalBtn" onClick={() =>abrirRegistro()}>Registrarse</button>
-            <button className="auth-btn login-btn" id="loginBtn" onClick={() =>abrirSesion()}>Iniciar sesión</button> 
-            </div>
-        </nav>
+  <div className="user-auth-buttons">
+    {user ? (
+      <>
+        <p className="user-welcome">👋 Bienvenido, {user.nombre}</p>
+        <button
+          className="auth-btn logout-btn"
+          onClick={() => {
+            localStorage.removeItem("token");
+            setUser(null);
+          }}
+        >
+          Cerrar sesión
+        </button>
+      </>
+    ) : (
+      <>
+        <button className="auth-btn register-btn" onClick={abrirRegistro}>Registrarse</button>
+        <button className="auth-btn login-btn" onClick={abrirSesion}>Iniciar sesión</button>
+      </>
+    )}
+  </div>
+</nav>
         
 
         <div id="RegistroTargeta" ref={AreaRegistro}>

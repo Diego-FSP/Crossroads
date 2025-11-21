@@ -106,7 +106,7 @@ create table EstadoReserva(
 );
 
 create table usuario(
-	idUsuario int primary key,
+	idUsuario int auto_increment primary key,
     nombre varchar(400),
     email varchar(400),
     pass varchar(900),
