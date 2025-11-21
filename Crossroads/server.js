@@ -63,7 +63,7 @@ app.post('/login', (req, res) => {
           if (!isMatch) return res.status(400).send('Contraseña incorrecta');
 
           // Crear token JWT
-          const token = jwt.sign({ id: user.idUsuario }, 'secreto', { expiresIn: '1h' });
+          const token = jwt.sign({ id: user.idUsuario }, process.env.SECRET_KEY, { expiresIn: '1h' });
           res.status(200).json({ token });
       });
   });
@@ -82,6 +82,23 @@ app.post('/register', (req, res) => {
           if (err) return res.status(500).send('Error al registrar el usuario');
           res.status(200).send('Usuario registrado correctamente');
       });
+  });
+});
+
+app.get('/profile', (req, res) => {
+  const authHeader = req.headers['authorization'];
+  if (!authHeader) return res.status(401).send('Token requerido');
+
+  const token = authHeader.split(" ")[1]; // separa "Bearer TOKEN"
+
+  jwt.verify(token, process.env.SECRET_KEY, (err, decoded) => {
+    if (err) return res.status(401).send('Token inválido');
+
+    const query = 'SELECT nombre, email FROM usuario WHERE idUsuario = ?';
+    db.query(query, [decoded.id], (err, results) => {
+      if (err) return res.status(500).send('Error en la consulta');
+      res.status(200).json(results[0]);
+    });
   });
 });
 

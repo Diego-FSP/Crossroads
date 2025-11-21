@@ -93,7 +93,7 @@ export function Barra(){
   <div className="user-auth-buttons">
     {user ? (
       <>
-        <p className="user-welcome">👋 Bienvenido, {user.nombre}</p>
+        <p className="user-welcome"> Bienvenid@, {user.nombre}</p>
         <button
           className="auth-btn logout-btn"
           onClick={() => {
