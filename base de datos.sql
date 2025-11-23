@@ -39,13 +39,13 @@ CREATE TABLE hoteles (
 
 -- Insertar hoteles ejemplo (30, para ejemplo; completa con la misma estructura hasta 100)
 INSERT INTO hoteles (precio, nombre, estrellas, descripcion, mapa, imagen, direccion, barrio_id, categoria) VALUES
-(1000,'Hotel Palo Santo', 4, 'Boutique con estilo moderno y piscina.'                                                                              ,'pb=!1m18!1m12!1m3!1d3284.9965005466606!2d-58.432110699999996!3d-34.5789551!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x95bcb5911aef258b%3A0x6dbe6b19813c454c!2sPalo%20Santo%20Hotel!5e0!3m2!1ses!2sar!4v1763648781683!5m2!1ses!2sar', 'https://media-cdn.tripadvisor.com/media/photo-s/12/5d/b2/68/the-beautiful-palo-santo.jpg', 'Costa Rica 5852, Palermo', 1, 'Boutique'),
-(1000,'Vitrum Hotel', 4, 'Diseño contemporáneo y ubicación estratégica.'                                                                           ,'pb=!1m18!1m12!1m3!1d3284.7798629679623!2d-58.43754!3d-34.5844363!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x95bcb58d76a60f69%3A0x2bd43ba20b9f747d!2sVitrum%20Hotel!5e0!3m2!1ses!2sar!4v1763649003096!5m2!1ses!2sar', 'https://dynamic-media-cdn.tripadvisor.com/media/photo-o/03/06/e8/71/hotel-vitrum.jpg?w=900&h=500&s=1', 'Gorriti 5780, Palermo', 1, 'Boutique'),
-(1000,'Home Hotel', 4, 'Conocido por su arquitectura y ambiente relajado.'                                                                         ,'pb=!1m18!1m12!1m3!1d3284.8672948458197!2d-58.44172022488589!3d-34.582224256362274!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x95bcb592dcedfa99%3A0xc3d289ba2cd27d71!2sHome%20Hotel!5e0!3m2!1ses!2sar!4v1763649286456!5m2!1ses!2sar', 'https://ultimallamada.com/wp-content/uploads/2021/12/Home-Hotel-Buenos-Aires-45.jpg', 'Armenia 1666, Palermo', 1, 'Boutique'),
+(334594,'Hotel Palo Santo', 4, 'Boutique con estilo moderno y piscina.'                                                                              ,'pb=!1m18!1m12!1m3!1d3284.9965005466606!2d-58.432110699999996!3d-34.5789551!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x95bcb5911aef258b%3A0x6dbe6b19813c454c!2sPalo%20Santo%20Hotel!5e0!3m2!1ses!2sar!4v1763648781683!5m2!1ses!2sar', 'https://media-cdn.tripadvisor.com/media/photo-s/12/5d/b2/68/the-beautiful-palo-santo.jpg', 'Costa Rica 5852, Palermo', 1, 'Boutique'),
+(137193,'Vitrum Hotel', 4, 'Diseño contemporáneo y ubicación estratégica.'                                                                           ,'pb=!1m18!1m12!1m3!1d3284.7798629679623!2d-58.43754!3d-34.5844363!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x95bcb58d76a60f69%3A0x2bd43ba20b9f747d!2sVitrum%20Hotel!5e0!3m2!1ses!2sar!4v1763649003096!5m2!1ses!2sar', 'https://dynamic-media-cdn.tripadvisor.com/media/photo-o/03/06/e8/71/hotel-vitrum.jpg?w=900&h=500&s=1', 'Gorriti 5780, Palermo', 1, 'Boutique'),
+(297087,'Home Hotel', 4, 'Conocido por su arquitectura y ambiente relajado.'                                                                         ,'pb=!1m18!1m12!1m3!1d3284.8672948458197!2d-58.44172022488589!3d-34.582224256362274!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x95bcb592dcedfa99%3A0xc3d289ba2cd27d71!2sHome%20Hotel!5e0!3m2!1ses!2sar!4v1763649286456!5m2!1ses!2sar', 'https://ultimallamada.com/wp-content/uploads/2021/12/Home-Hotel-Buenos-Aires-45.jpg', 'Armenia 1666, Palermo', 1, 'Boutique'),
 
-(1000,'Alvear Palace Hotel', 5, 'Lujo clásico con spa y restaurantes gourmet.'                                                                     ,'pb=!1m18!1m12!1m3!1d3284.6554562829447!2d-58.3888465!3d-34.587583599999995!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x95bccaa37c9450ad%3A0x9cdf7e292ed4c101!2sAlvear%20Palace%20Hotel!5e0!3m2!1ses-419!2sar!4v1763660283192!5m2!1ses-419!2sar', 'https://media-cdn.tripadvisor.com/media/photo-s/08/6d/95/a4/alvear-palace-hotel.jpg', 'Av. Alvear 1891, Recoleta', 2, 'Lujo'),
-(1000,'Loi Suites Recoleta', 5, 'Elegante y cerca de museos y parques.'                                                                            ,'pb=!1m18!1m12!1m3!1d3284.581502478752!2d-58.392415!3d-34.5894544!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x95bccaa2c310d4e7%3A0x6f37de733a749427!2sLoi%20Suites%20Recoleta%20Hotel!5e0!3m2!1ses-419!2sar!4v1763660386571!5m2!1ses-419!2sar', 'https://q-xx.bstatic.com/xdata/images/hotel/max500/521121501.jpg?k=7292aac21e40a4b0443034828712d47bdfada3780b0a76d5d5df3af48f3532ff&o=', 'Posadas 1236, Recoleta', 2, 'Boutique'),
-(1000,'Recoleta Grand', 4, 'Moderno con instalaciones de primera.'                                                                                 ,'pb=!1m18!1m12!1m3!1d3284.4741757550455!2d-58.39360252522769!3d-34.592169272958365!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x95bccabcfca7a58b%3A0x313ed311c088fbcb!2sRecoleta%20Grand%2C%20Buenos%20Aires%2C%20a%20Tribute%20Portfolio%20Hotel!5e0!3m2!1ses-419!2sar!4v1763660170413!5m2!1ses-419!2sar', 'https://architector.calidadempresaria.net/wp-content/uploads/2021/05/foto-portada-recoleta.jpg', 'Junin 1824, Recoleta', 2, 'Boutique'),
+(466297,'Alvear Palace Hotel', 5, 'Lujo clásico con spa y restaurantes gourmet.'                                                                     ,'pb=!1m18!1m12!1m3!1d3284.6554562829447!2d-58.3888465!3d-34.587583599999995!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x95bccaa37c9450ad%3A0x9cdf7e292ed4c101!2sAlvear%20Palace%20Hotel!5e0!3m2!1ses-419!2sar!4v1763660283192!5m2!1ses-419!2sar', 'https://media-cdn.tripadvisor.com/media/photo-s/08/6d/95/a4/alvear-palace-hotel.jpg', 'Av. Alvear 1891, Recoleta', 2, 'Lujo'),
+(297243,'Loi Suites Recoleta', 5, 'Elegante y cerca de museos y parques.'                                                                            ,'pb=!1m18!1m12!1m3!1d3284.581502478752!2d-58.392415!3d-34.5894544!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x95bccaa2c310d4e7%3A0x6f37de733a749427!2sLoi%20Suites%20Recoleta%20Hotel!5e0!3m2!1ses-419!2sar!4v1763660386571!5m2!1ses-419!2sar', 'https://q-xx.bstatic.com/xdata/images/hotel/max500/521121501.jpg?k=7292aac21e40a4b0443034828712d47bdfada3780b0a76d5d5df3af48f3532ff&o=', 'Posadas 1236, Recoleta', 2, 'Boutique'),
+(388676,'Recoleta Grand', 4, 'Moderno con instalaciones de primera.'                                                                                 ,'pb=!1m18!1m12!1m3!1d3284.4741757550455!2d-58.39360252522769!3d-34.592169272958365!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x95bccabcfca7a58b%3A0x313ed311c088fbcb!2sRecoleta%20Grand%2C%20Buenos%20Aires%2C%20a%20Tribute%20Portfolio%20Hotel!5e0!3m2!1ses-419!2sar!4v1763660170413!5m2!1ses-419!2sar', 'https://architector.calidadempresaria.net/wp-content/uploads/2021/05/foto-portada-recoleta.jpg', 'Junin 1824, Recoleta', 2, 'Boutique'),
 
 (1000,'Hotel Plaza', 4, 'Tradicional, cerca de la Calle Florida.'                                                                                  ,'pb=!1m18!1m12!1m3!1d3284.3009647169847!2d-58.37582797426!3d-34.596550322956865!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x95bccaca78841089%3A0xe88c409508944453!2sPlaza%20Hotel%20Buenos%20Aires!5e0!3m2!1ses-419!2sar!4v1763660554502!5m2!1ses-419!2sar', 'https://www.clarin.com/2022/08/04/VYnqHM9hL_2000x1500__1.jpg', 'Florida 100, Microcentro', 3, 'Clásico'),
 (1000,'NH Buenos Aires 9 de Julio', 4, 'Ubicación céntrica con vistas al Obelisco.'                                                                ,'pb=!1m18!1m12!1m3!1d3283.8979796273265!2d-58.382172700000005!3d-34.6067412!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x95bccacfeeb9d43b%3A0xe3a4cede9ca734f7!2sHotel%20NH%20Buenos%20Aires%209%20de%20Julio!5e0!3m2!1ses-419!2sar!4v1763660595992!5m2!1ses-419!2sar', 'https://dynamic-media-cdn.tripadvisor.com/media/photo-o/2e/9c/73/49/caption.jpg?w=1200&h=1200&s=1', 'Av. 9 de Julio 1020, Microcentro', 3, 'Negocios'),
@@ -127,9 +127,10 @@ create table Reserva(
 );
 
 create table Historial(
-	idHistorial int primary key,
+	idHistorial int auto_increment primary key,
     idUsuario int,
     fechaGuardado datetime,
+    accion varchar(400),
     id_hotel int,
     FOREIGN KEY (id_hotel) REFERENCES hoteles(id),
     FOREIGN KEY (idUsuario) REFERENCES usuario(idUsuario)
@@ -393,3 +394,14 @@ INSERT INTO Habitacion (idHabitacion, numero, idTipoHabitacion) VALUES
 -- Hotel 30: Hotel del Parque (Tipo 59 y 60)
 (291,5901,59),(292,5902,59),(293,5903,59),(294,5904,59),(295,5905,59),
 (296,6001,60),(297,6002,60),(298,6003,60),(299,6004,60),(300,6005,60);
+
+
+delimiter &&
+
+drop trigger if exists NuevoUser&&
+create trigger NuevoUser after insert on usuario
+for each row
+begin
+	INSERT INTO historial (idUsuario, fechaGuardado, accion, id_hotel) 
+    values(1, Now(), 'Se registro el usuario', 1);
+end&&

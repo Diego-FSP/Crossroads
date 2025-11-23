@@ -1,12 +1,11 @@
 import { useRef, useState, useEffect } from "react"
 import axios from 'axios';
 
-export function Barra(){
+export function Barra({estado, setestado}){
     const AreaRegistro = useRef(null);
     const AreaSesion = useRef(null);
     const [mensajeError, setMensajeError] = useState("");
     const [user, setUser] = useState(null);
-    
 
     const abrirRegistro=() =>{
         console.log("RegistroActivado")
@@ -93,9 +92,10 @@ export function Barra(){
   <div className="user-auth-buttons">
     {user ? (
       <>
-        <p className="user-welcome"> Bienvenid@, {user.nombre}</p>
-        <button
-          className="auth-btn logout-btn"
+        <p className="user-welcome"> Bienvenid@, {user.nombre} {estado}</p>
+        <button onClick={()=>setestado("Historial")}> Historial </button>
+        <button onClick={()=>setestado("Inicio")}>hoteles</button>
+        <button className="auth-btn logout-btn"
           onClick={() => {
             localStorage.removeItem("token");
             setUser(null);

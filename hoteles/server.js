@@ -55,7 +55,7 @@ const transporter = nodemailer.createTransport({
 // Endpoint para iniciar sesión
 app.post('/login', (req, res) => {
   const { email, password } = req.body;
-
+  const queryl = 'INSERT INTO historial (idUsuario, fechaGuardado, accion, id_hotel) values(?, Now(), ?, 1)'
   const query = 'SELECT * FROM usuario WHERE email = ?';
   db.query(query, [email], (err, results) => {
       if (err) return res.status(500).send('Error al realizar la consulta');
@@ -65,9 +65,9 @@ app.post('/login', (req, res) => {
       bcrypt.compare(password, user.pass, (err, isMatch) => {
           if (err) return res.status(500).send('Error de autenticación');
           if (!isMatch) return res.status(400).send('Contraseña incorrecta');
-
+          db.query(queryl, [user.idUsuario, "El usuario inicio sesion"]);
           // Crear token JWT
-          const token = jwt.sign({ id: user.idUsuario }, process.env.SECRET_KEY, { expiresIn: '1h' });
+          const token = jwt.sign({ id: user.idUsuario }, process.env.SECRET_KEY, { expiresIn: '5h' });
           res.status(200).json({ token });
       });
   });
@@ -211,5 +211,22 @@ app.get('/api/HotelTipoH', (req, res) => {
   });
 });
 
+app.get('/api/HistorialU', (req,res) =>{
+  const authHeader = req.headers['authorization'];
+  if (!authHeader) return res.status(401).send('Token requerido');
+
+  const token = authHeader.split(" ")[1]; // separa "Bearer TOKEN"
+
+  jwt.verify(token, process.env.SECRET_KEY, (err, decoded) => {
+    if (err) return res.status(401).send('Token inválido');
+    
+    const query = 'SELECT * FROM historial WHERE idUsuario = ?';
+    db.query(query, [decoded.id], (err, results) => {
+      if (err) return res.status(500).send('Error en la consulta');
+      res.status(200).json(results);
+      
+    });
+  });
+})
 
 app.listen(port, () => console.log(`🚀 Servidor corriendo en http://localhost:${port}`));
