@@ -46,17 +46,14 @@ export function DetalleHotel({ID}){
                 Hotel.map((h)=>(
                     <div>
                         <div>
-                            <div>
+                            <div class ='DatosHotelTarjeta'>
                             <h1>{h.nombre}</h1> 
                             <p>{'⭐️'.repeat(h.estrellas)}</p>
                             </div>
                         </div>
                         <div id='AreaHD'>
                             <div id='IMGDA'>
-                                <img
-                                    id='IMGD' 
-                                    src={h.imagen || 'https://via.placeholder.com/400x300?text=Sin+imagen'} 
-                                    alt="" />
+                                <img id='IMGD' src={h.imagen || 'https://via.placeholder.com/400x300?text=Sin+imagen'} alt=""/>
                             </div>
                             <div id='InfoDH'>
                                 <div className='Conjunto'>
@@ -64,19 +61,10 @@ export function DetalleHotel({ID}){
                                         <p><strong>Descripcion: </strong>{h.descripcion}</p>
                                         <p><strong>Direccion:</strong> {h.direccion}</p>
                                         <p><strong>Categoria:</strong> {h.categoria}</p>
-                                        <span >
-                                            <strong>Desde: {h.precio}$</strong>
-                                        </span>
+                                        <span> <strong>Desde: {h.precio}$</strong> </span>
                                     </div>
                                     <div>
-                                        <iframe 
-                                        id='MapaD'
-                                        src={"https://www.google.com/maps/embed?"+h.mapa}
-                                        frameborder="0"
-                                        referrerpolicy="no-referrer-when-downgrade"
-                                        loading="lazy" >
-                                        </iframe>
-                                        
+                                        <iframe id='MapaD' src={"https://www.google.com/maps/embed?"+h.mapa} frameborder="0" referrerpolicy="no-referrer-when-downgrade"loading="lazy"></iframe>
                                     </div>
                                 </div>
                                 <div className='AreaTipoH'>
