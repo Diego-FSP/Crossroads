@@ -1,6 +1,7 @@
 import { useRef, useState, useEffect } from "react"
 import axios from 'axios';
 import './Historial.css'
+import { DetalleHotel } from "./DetalleHotel";
 
 export function Historial(){
     // valores
@@ -23,15 +24,17 @@ export function Historial(){
 
     return(
         <div id="HistorialArea">
-            <h1>Historial</h1>
+            <div id="Titulo">
+                <h1>Historial</h1>
+            </div>
             <div id="ConjuntoH">
                 <div id="ListaH">
                         {historial.length == 0? (<p>No hay actividad del usuario</p>) : 
                             (
                                 historial.map((h)=>(
-                                    <div onClick={() => setActividad(h)}>
-                                        <p>{h.fechaGuardado}</p>
-                                        
+//{ (new Date(h.fechaGuardado)).getDate() }
+                                    <div className="itemHistorial" onClick={() => setActividad(h)}>
+                                        <p>{ (Date(h.fechaGuardado)) } </p>
                                     </div>
                                 ))
                             )
@@ -42,7 +45,12 @@ export function Historial(){
                         (
                             <div>
                                 <h2>{Actividad.accion}</h2>
-                                <p>Realizada en {Actividad.fechaGuardado}</p>
+                                <p>Realizada en {Date(Actividad.fechaGuardado)}</p>
+                                <div>
+                                    {Actividad.accion.includes("visito") == true ? (
+                                        <DetalleHotel ID={Actividad.idHotel}></DetalleHotel>
+                                    ):( <div></div> )}
+                                </div>
                             </div>
                         )}
                         

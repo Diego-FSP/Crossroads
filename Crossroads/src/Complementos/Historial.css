@@ -1,7 +1,36 @@
 #HistorialArea{
-    margin-top: 100px;
+    width: 100%;
 }
 
 #ConjuntoH{
     display: flex;
+    height: 470px;
+}
+
+#Titulo{
+    margin-top: 6%;
+    width: 100%;
+}
+
+#ListaH{
+    width: 260px;
+    overflow-y: auto;
+    height: 100%;
+    border-radius: 10px;
+}
+
+#Historial{
+    width: 80%;
+    overflow-y: auto;
+    height: 100%;
+    
+    #TargetaD{
+        width: 100%;
+    }
+}
+
+.itemHistorial{
+    text-align: center;
+    border: 5px rgb(155, 11, 95) solid;
+    background-color: rgb(211, 16, 55);
 }

@@ -1,5 +1,6 @@
 import { useRef, useEffect, useState } from 'react';
 import {DetalleHotel} from './DetalleHotel.jsx'
+import axios from 'axios';
 
 export function HotelCard() {
   const API_BASE = 'http://localhost:5000/api';
@@ -66,11 +67,21 @@ export function HotelCard() {
 
   // ------------------------
   // 🔹 Renderizado JSX
-  const abrirDetalle = (ID) =>{
+  const abrirDetalle = async (ID) =>{
     console.log("mostrar detalle del hotel n°"+ID)
     AreaDetalle.current.style.display = "flex";
     setIDH(ID);
+    const token = localStorage.getItem("token");
+    if (!token) return;
+    else{
+        const params = new URLSearchParams({idh: ID});
+        const headers= { Authorization: `Bearer ${token}`}
+        const rta= await axios.get(`${API_BASE}/HistorialU/Hotel`,
+        {headers, params}
+      );
+    }
   }
+
   const cerrarDetalle =() =>{
     AreaDetalle.current.style.display = "none";
     setIDH(0);

@@ -15,7 +15,7 @@ const port = process.env.PORT || 5000;
 
 app.use(cors(
   {
-    origin:["http://localhost:5000","http://localhost:5173","http://localhost:5000/register"]
+    origin:["http://localhost:5000","http://localhost:5173","http://localhost:5000/register","*"]
   }
 ));
 app.use(express.static('public'));
@@ -39,7 +39,7 @@ db.connect(err => {
   console.log('✅ Conectado a MySQL');
 });
 
-// 🔹 Configurar Nodemailer
+// ------------------------ Configurar Nodemailer ------------------------------------------
 const transporter = nodemailer.createTransport({
   service: 'gmail',
   auth: {
@@ -220,8 +220,31 @@ app.get('/api/HistorialU', (req,res) =>{
   jwt.verify(token, process.env.SECRET_KEY, (err, decoded) => {
     if (err) return res.status(401).send('Token inválido');
     
-    const query = 'SELECT * FROM historial WHERE idUsuario = ?';
+    const query = `SELECT h.idHistorial, h.idUsuario, h.fechaGuardado, h.accion, h.id_hotel as 'idHotel' 
+    FROM historial h 
+    WHERE idUsuario = ?
+    order by h.idHistorial desc`;
     db.query(query, [decoded.id], (err, results) => {
+      if (err) return res.status(500).send('Error en la consulta');
+      res.status(200).json(results);
+      
+    });
+  });
+})
+// -----------------------------------------Historial--------------------------------------------------
+
+app.get('/api/HistorialU/Hotel', (req,res) =>{
+  const authHeader = req.headers['authorization'];
+  if (!authHeader) return res.status(401).send('Token requerido');
+  console.log(req.query);
+  const {idh}= req.query;
+  const token = authHeader.split(" ")[1]; // separa "Bearer TOKEN"
+
+  jwt.verify(token, process.env.SECRET_KEY, (err, decoded) => {
+    if (err) return res.status(401).send('Token inválido');
+    
+    const query = 'INSERT INTO historial (idUsuario, fechaGuardado, accion, id_hotel) values(?, Now(), ?, ?)'
+    db.query(query, [decoded.id, "El usuario visito un hotel", idh], (err, results) => {
       if (err) return res.status(500).send('Error en la consulta');
       res.status(200).json(results);
       

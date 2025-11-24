@@ -95,10 +95,11 @@ export function Barra({estado, setestado}){
         <p className="user-welcome"> Bienvenid@, {user.nombre} {estado}</p>
         <button onClick={()=>setestado("Historial")}> Historial </button>
         <button onClick={()=>setestado("Inicio")}>hoteles</button>
-        <button className="auth-btn logout-btn"
+        <button className="auth-btn logout-btn" 
           onClick={() => {
             localStorage.removeItem("token");
             setUser(null);
+            setestado("Inicio");
           }}
         >
           Cerrar sesión
