@@ -368,61 +368,156 @@ body{
 }
 
 /*Atributos de Tarjeta*/
-.AreaTipoH{
-  display: flex;
-}
-
-#AreaHD{
-  display: flex;
-  overflow-y: auto;
-  margin: auto 30px;
-}
-#InfoDH{
-  overflow-y: auto;
-  height: 400px;
-
-}
-
-#TargetaD{
+#TargetaD {
   width: 90%;
-  height: 100%;
-  background-color: #5c162e;
-}
-
-.DatosHotelTarjeta{
-  margin: 50px;
-  padding-left: 25px;
-  font-size: 15px;
-  background-color: #3c0d55;
-  border: 3px solid rgb(0, 0, 0);
+  margin: 30px auto;
+  padding: 25px;
+  background: linear-gradient(135deg, #350d29, #200b33);
   border-radius: 20px;
-  color: #f4d7fc;
+  color: #f8e3ff;
+  box-shadow: 0 0 20px rgba(0,0,0,0.6);
 }
 
-#IMGDA{
-  width: 600px;
-  height: 400px;
-  overflow:hidden;
-  position:relative;
+.DatosHotelTarjeta {
+  margin: 15px auto;
+  padding: 20px;
+  font-size: 18px;
+  background-color: #422155;
+  border: 3px solid black;
   border-radius: 20px;
+  color: #f8e3ff;
+  width: fit-content;
+  box-shadow: 0 0 15px rgba(0,0,0,0.5);
+}
+.DatosHotelTarjeta h1 {
+  margin-bottom: 5px;
 }
 
-#InfoDH, #IMGDA{
-  margin: auto 10px;
-}
-.Conjunto{
+#AreaHD {
   display: flex;
-  margin: auto 40px;
-  font-size: 20px;
-}
-.THabitacion{
-  margin: auto 50px;
-  font-size: 20px;
+  gap: 20px;
+  margin-top: 20px;
+  overflow-y: hidden;
 }
 
-#MapaD{
-  margin: 25px;
-  height: 300px;
+#IMGDA {
+  width: 550px;
+  height: 350px;
+  overflow: hidden;
+  position: relative;
+  border-radius: 20px;
+  border: 4px solid #a3a2a2;
+  box-shadow: 0 0 15px rgba(0,0,0,0.6);
+}
+
+#IMGD {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+
+#InfoDH {
+  flex: 1;
+  padding: 20px;
+  background: rgba(255,255,255,0.08);
+  border-radius: 20px;
+  height: 380px;
+  overflow-y: auto;
+  box-shadow: inset 0 0 15px rgba(0,0,0,0.4);
+}
+
+
+.Conjunto {
+  display: flex;
+  justify-content: space-between;
+  font-size: 20px;
+  padding: 10px;
+}
+
+
+#MapaD {
+  height: 250px;
   width: 450px;
   border-radius: 20px;
+  border: 3px solid #868686;
+  box-shadow: 0 0 15px rgba(0,0,0,0.5);
 }
+
+.AreaTipoH {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 30px;
+  margin-top: 20px;
+}
+
+.THabitacion {
+  background: #3c0d55;
+  padding: 20px;
+  width: 290px;
+  border-radius: 20px;
+  font-size: 18px;
+  color: #f8e3ff;
+  border: 3px solid #000000;
+  box-shadow: 0 0 15px rgba(0,0,0,0.6);
+  transition: transform 0.2s ease;
+}
+
+.THabitacion:hover {
+  transform: translateY(-5px);
+}
+
+/* Atibutos para Scrool */
+#InfoDH::-webkit-scrollbar {
+  width: 10px;
+}
+
+#InfoDH::-webkit-scrollbar-thumb {
+  background: #8a0e36;
+  border-radius: 10px;
+}
+
+#InfoDH::-webkit-scrollbar-track {
+  background: rgba(255,255,255,0.1);
+}
+
+/* Footer de reserva */
+.BotonesReserva {
+  margin-top: 60px;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+}
+
+.BtnReservar,
+.BtnConsultar {
+  padding: 12px 25px;
+  font-size: 25px;
+  border-radius: 15px;
+  border: none;
+  cursor: pointer;
+  transition: 0.2s ease;
+  font-weight: bold;
+  color: #f8e3ff;
+}
+
+.BtnReservar {
+  background: #8a0e36;
+  box-shadow: 0 0 10px rgba(0,0,0,0.5);
+}
+.BtnReservar:hover {
+  background: #b1134b;
+  transform: scale(1.05);
+}
+
+.BtnConsultar {
+  background: #422155;
+  box-shadow: 0 0 10px rgba(0,0,0,0.4);
+}
+.BtnConsultar:hover {
+  background: #5a3070;
+  transform: scale(1.05);
+}
+
+
