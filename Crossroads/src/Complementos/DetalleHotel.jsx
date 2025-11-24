@@ -46,7 +46,7 @@ export function DetalleHotel({ID}){
                 Hotel.map((h)=>(
                     <div>
                         <div>
-                            <div class ='DatosHotelTarjeta'>
+                            <div className='DatosHotelTarjeta'>
                             <h1>{h.nombre}</h1> 
                             <p>{'⭐️'.repeat(h.estrellas)}</p>
                             </div>
@@ -83,7 +83,12 @@ export function DetalleHotel({ID}){
                                 </div>
                             </div>
                         </div>
+                        <div class="BotonesReserva">
+                                <button class="BtnReservar">Reservar ahora</button>
+                                <button class="BtnConsultar">Consultar disponibilidad</button>
+                            </div>
                     </div>
+                    
                 ))
             )}
             
