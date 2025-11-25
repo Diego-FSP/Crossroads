@@ -403,5 +403,5 @@ create trigger NuevoUser after insert on usuario
 for each row
 begin
 	INSERT INTO historial (idUsuario, fechaGuardado, accion, id_hotel) 
-    values(new.idUsuario, Now(), 'Se registro el usuario', 1);
+    values(new.idUsuario, Now(), 'Te registraste', 1);
 end&&

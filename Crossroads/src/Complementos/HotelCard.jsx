@@ -179,8 +179,11 @@ export function HotelCard() {
         </div>
       )}
       <div className='AreaDetalle'  ref={AreaDetalle}>
-        <button onClick={() =>cerrarDetalle()}></button>
-        <DetalleHotel ID={IDH}></DetalleHotel>
+        <div className='CerrarArea' onClick={() =>cerrarDetalle()}></div>
+        <button id='CerrarDetalle' onClick={() =>cerrarDetalle()}>X</button>
+        <div>
+          <DetalleHotel ID={IDH}></DetalleHotel>
+        </div>
       </div>
       
     </main>

@@ -521,3 +521,23 @@ body{
 }
 
 
+#CerrarDetalle{
+  margin-left: 91%;
+  margin-top: 30px;
+  width: 50px;
+  height: 50px;
+  position: absolute;
+  background-color: #8a0e36;
+  color: #ffdce7;
+}
+
+.CerrarArea{
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  z-index: -1;
+}
+
+.AreaEncima{
+  position: static;
+}
