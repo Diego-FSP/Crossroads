@@ -1,0 +1,6 @@
+{
+  "deploy": {
+    "dir": "hoteles",
+    "startCommand": "node server.js"
+  }
+}
