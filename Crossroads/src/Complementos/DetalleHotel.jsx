@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 
 export function DetalleHotel({ID, server}){
-
+    const [Comentarios, setComentaios] = useState([]);
     const [tipoHab, setTipoHab] = useState([]);
     const [Hotel, setHotel] = useState([]);
 
@@ -37,6 +37,21 @@ export function DetalleHotel({ID, server}){
 
         loadHotel();
     }, [ID]);
+
+    useEffect(() =>{
+        async function loadComentarios() {
+            try{
+                const param = new URLSearchParams({idh: ID});
+                const res = await fetch(`${server}/api/Hotel/Comentarios?${param}`);
+                const data = await res.json();
+                setComentaios(data || []);
+            }catch{
+                console.error('Error al cargar Comentarios', err);
+                setComentaios([]);
+            }
+        }
+        loadComentarios();
+    })
 
     return(
         <div id='TargetaD'>
@@ -82,6 +97,7 @@ export function DetalleHotel({ID, server}){
                                 </div>
                             </div>
                         </div>
+                        <div className='Comentarios'></div>
                         <div className="BotonesReserva">
                                 <button class="BtnReservar">Reservar ahora</button>
                                 <button class="BtnConsultar">Consultar disponibilidad</button>

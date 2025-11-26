@@ -137,7 +137,7 @@ create table Historial(
 );
 
 create table Calificacion(
-	idCalficacion int primary key,
+	idCalficacion int auto_increment primary key,
     id_hotel int,
     idUsuario int,
     comentario varchar(400),

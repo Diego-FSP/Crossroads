@@ -253,4 +253,17 @@ app.get('/api/HistorialU/Hotel', (req,res) =>{
   });
 })
 
+app.get('/api/Hotel/Comentarios', (req,res) =>{
+  const {idh}= req.query;
+  const query = `SELECT c.idCalficacion, c.idUsuario, c.id_hotel as "idHotel", c.comentario, c.estrellas, u.nombre , u.email
+    FROM calificacion c
+    inner join usuario u on c.idUsuario=u.idUsuario
+    where c.id_hotel=${idh}`;
+
+  db.query(query, (err, results) => {
+    if (err) return res.status(500).json({ error: err.message });
+    res.json(results);
+  });
+})
+
 app.listen(port, () => console.log(`🚀 Servidor corriendo en http://localhost:${port}`));
