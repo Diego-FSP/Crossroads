@@ -26,9 +26,9 @@ app.use('/images', express.static(path.join(__dirname, 'images')));
 
 // 🔹 Conexión MySQL
 const db = mysql.createConnection({
-  host: process.env.DB_HOST || 'localhost',
-  user: process.env.DB_USER || 'root',
-  password: process.env.DB_PASS || 'root',
+  host: process.env.DB_HOST || 'mysql.railway.internal',
+  user: process.env.DB_USER || 'switchyard.proxy.rlwy.net',
+  password: process.env.DB_PASS || 'zUjOKKfVHAcOEQUBDuISLtnHjPslcCRm',
   database: process.env.DB_NAME || 'hotelesBA'
 });
 
