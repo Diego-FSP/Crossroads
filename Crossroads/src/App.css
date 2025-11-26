@@ -370,7 +370,7 @@ body{
 /*Atributos de Tarjeta*/
 #TargetaD {
   width: 90%;
-  margin: 30px auto;
+  margin: auto auto;
   padding: 25px;
   background: linear-gradient(135deg, #350d29, #200b33);
   border-radius: 20px;
