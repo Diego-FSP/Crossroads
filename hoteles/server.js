@@ -12,6 +12,7 @@ const jwt = require('jsonwebtoken');
 const app = express();
 const port = process.env.PORT || 3000;
 
+mysql://root:zUjOKKfVHAcOEQUBDuISLtnHjPslcCRm@switchyard.proxy.rlwy.net:49441/railway
 
 app.use(cors(
   {
