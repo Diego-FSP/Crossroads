@@ -1,6 +1,6 @@
 import {HotelCard} from './HotelCard.jsx'
 
-export function Main(){
+export function Main({server}){
     return(
         <main className="contenedor" >
         <section id="Inicio">
@@ -18,7 +18,7 @@ export function Main(){
         </section>
 
         
-        <HotelCard ></HotelCard>
+        <HotelCard server={server} ></HotelCard>
         </main>
     )
 }

@@ -1,7 +1,7 @@
 import { useRef, useState, useEffect } from "react"
 import axios from 'axios';
 
-export function Barra({estado, setestado}){
+export function Barra({estado, setestado, server}){
     const AreaRegistro = useRef(null);
     const AreaSesion = useRef(null);
     const [mensajeError, setMensajeError] = useState("");
@@ -36,10 +36,10 @@ export function Barra({estado, setestado}){
         const password = e.target.loginPassword.value;
 
         try {
-            const response = await axios.post('http://localhost:5000/login', { email, password });
+            const response = await axios.post(`${server}/login`, { email, password });
             const token = response.data.token;
             localStorage.setItem('token', token);  // Guardar el token en el localStorage
-            const perfil = await axios.get("http://localhost:5000/profile", {
+            const perfil = await axios.get(`${server}/profile`, {
                 headers: { Authorization: `Bearer ${token}` }
             });
             setUser(perfil.data);
@@ -66,7 +66,7 @@ export function Barra({estado, setestado}){
         }
 
         try {
-            await axios.post('http://localhost:5000/register', { nombre, email, password, telefono, documento });
+            await axios.post(`${server}/register`, { nombre, email, password, telefono, documento });
             alert("Usuario registrado exitosamente");
             cerrarRegistro();
         } catch (error) {
@@ -78,7 +78,7 @@ export function Barra({estado, setestado}){
         const token = localStorage.getItem("token");
         if (!token) return;
 
-        axios.get("http://localhost:5000/profile", {
+        axios.get(`${server}/profile`, {
             headers: { Authorization: `Bearer ${token}` }
         })
         .then(res => setUser(res.data))

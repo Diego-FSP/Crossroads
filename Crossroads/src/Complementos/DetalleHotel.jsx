@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 
-export function DetalleHotel({ID}){
-    const API_BASE = 'http://localhost:5000/api';
+export function DetalleHotel({ID, server}){
 
     const [tipoHab, setTipoHab] = useState([]);
     const [Hotel, setHotel] = useState([]);
@@ -10,7 +9,7 @@ export function DetalleHotel({ID}){
         async function loadTipoH() {
             try{
                 const param = new URLSearchParams({id: ID});
-                const res = await fetch(`${API_BASE}/HotelTipoH?${param}`);
+                const res = await fetch(`${server}/api/HotelTipoH?${param}`);
                 const data = await res.json();
                 setTipoHab(data || []);
             }catch{
@@ -27,7 +26,7 @@ export function DetalleHotel({ID}){
         async function loadHotel() {
             try{
                 const param = new URLSearchParams({id: ID});
-                const res = await fetch(`${API_BASE}/hotelD?${param}`);
+                const res = await fetch(`${server}/api/hotelD?${param}`);
                 const data = await res.json();
                 setHotel(data || []);
             }catch{
@@ -83,7 +82,7 @@ export function DetalleHotel({ID}){
                                 </div>
                             </div>
                         </div>
-                        <div class="BotonesReserva">
+                        <div className="BotonesReserva">
                                 <button class="BtnReservar">Reservar ahora</button>
                                 <button class="BtnConsultar">Consultar disponibilidad</button>
                             </div>

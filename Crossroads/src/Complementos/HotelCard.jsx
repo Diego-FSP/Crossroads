@@ -2,8 +2,7 @@ import { useRef, useEffect, useState } from 'react';
 import {DetalleHotel} from './DetalleHotel.jsx'
 import axios from 'axios';
 
-export function HotelCard() {
-  const API_BASE = 'http://localhost:5000/api';
+export function HotelCard({server}) {
 
   // 🔹 Estados
   const [hoteles, setHoteles] = useState([]);
@@ -22,7 +21,7 @@ export function HotelCard() {
   useEffect(() => {
     async function loadSectors() {
       try {
-        const res = await fetch(`${API_BASE}/barrio`);
+        const res = await fetch(`${server}/api/barrio`);
         const data = await res.json();
         setBarrios(data);
       } catch (err) {
@@ -46,7 +45,7 @@ export function HotelCard() {
           perPage,
         });
 
-        const res = await fetch(`${API_BASE}/hotels?${params}`);
+        const res = await fetch(`${server}/api/hotels?${params}`);
         const data = await res.json();
 
         setHoteles(data.hotels || []);
@@ -76,7 +75,7 @@ export function HotelCard() {
     else{
         const params = new URLSearchParams({idh: ID});
         const headers= { Authorization: `Bearer ${token}`}
-        const rta= await axios.get(`${API_BASE}/HistorialU/Hotel`,
+        const rta= await axios.get(`${server}/api/HistorialU/Hotel`,
         {headers, params}
       );
     }
@@ -182,7 +181,7 @@ export function HotelCard() {
         <div className='CerrarArea' onClick={() =>cerrarDetalle()}></div>
         <button id='CerrarDetalle' onClick={() =>cerrarDetalle()}>X</button>
         <div>
-          <DetalleHotel ID={IDH}></DetalleHotel>
+          <DetalleHotel ID={IDH} server={server}></DetalleHotel>
         </div>
       </div>
       

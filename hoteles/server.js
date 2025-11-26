@@ -10,12 +10,12 @@ const path = require('path');
 require('dotenv').config();
 const jwt = require('jsonwebtoken');
 const app = express();
-const port = process.env.PORT || 5000;
+const port = process.env.PORT || 3000;
 
 
 app.use(cors(
   {
-    origin:["http://localhost:5000","http://localhost:5173","http://localhost:5000/register","*"]
+    origin:["http://localhost:5000","http://localhost:5173","http://localhost:5000/register","http://localhost:3000","*"]
   }
 ));
 app.use(express.static('public'));

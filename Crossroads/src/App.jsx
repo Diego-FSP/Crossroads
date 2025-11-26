@@ -10,12 +10,12 @@ import { Historial } from './Complementos/HIstorial.jsx';
 function App() {
   const [count, setCount] = useState(0)
   const [Estado, setEstado] = useState("Inicio")
-
+  const server = 'http://localhost:3000';
   return (
     <>
-      <Barra estado={Estado} setestado={setEstado}/>
-      {Estado=="Inicio"? (<Main></Main>):(<div></div>)}
-      {Estado=="Historial"? (<Historial></Historial>):(<div></div>)}
+      <Barra estado={Estado} setestado={setEstado} server={server}/>
+      {Estado=="Inicio"? (<Main server={server}></Main>):(<div></div>)}
+      {Estado=="Historial"? (<Historial server={server}></Historial>):(<div></div>)}
     </>
   )
 }

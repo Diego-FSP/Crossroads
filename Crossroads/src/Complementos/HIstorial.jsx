@@ -3,7 +3,7 @@ import axios from 'axios';
 import './Historial.css'
 import { DetalleHotel } from "./DetalleHotel";
 
-export function Historial(){
+export function Historial({server}){
     // valores
     //const [user, setUser] = useState(null);
     const [idH, setIDH] = useState(0);
@@ -15,7 +15,7 @@ export function Historial(){
         const token = localStorage.getItem("token");
         if (!token) return;
 
-        axios.get("http://localhost:5000/api/HistorialU", {
+        axios.get(`${server}/api/HistorialU`, {
             headers: { Authorization: `Bearer ${token}` }
         })
         .then(res => setHistorial(res.data))
@@ -48,7 +48,7 @@ export function Historial(){
                                 <p>Realizada en {Date(Actividad.fechaGuardado)}</p>
                                 <div>
                                     {Actividad.accion.includes("visito") == true ? (
-                                        <DetalleHotel ID={Actividad.idHotel}></DetalleHotel>
+                                        <DetalleHotel ID={Actividad.idHotel} server={server}></DetalleHotel>
                                     ):( <div></div> )}
                                 </div>
                             </div>
