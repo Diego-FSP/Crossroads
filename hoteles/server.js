@@ -16,7 +16,7 @@ const port = process.env.PORT || 3000;
 
 app.use(cors(
   {
-    origin:["http://localhost:5000","http://localhost:5173","http://localhost:5000/register","http://localhost:3000","https://marvelous-respect-production.up.railway.app","https://majestic-moonbeam-c8a5d2.netlify.app","*"]
+    origin:["http://localhost:5000","http://localhost:5173","http://localhost:5000/register","http://localhost:3000","https://marvelous-respect-production.up.railway.app","https://hoteles-web.netlify.app","*"]
   }
 ));
 app.use(express.static('public'));
