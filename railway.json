@@ -1,6 +1,9 @@
 {
+  "build": {
+    "dir": "hoteles"
+  },
   "deploy": {
     "dir": "hoteles",
-    "startCommand": "node server.js"
+    "startCommand": "npm start"
   }
 }
