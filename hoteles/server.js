@@ -69,7 +69,10 @@ app.post('/login', (req, res) => {
       bcrypt.compare(password, user.pass, (err, isMatch) => {
           if (err) return res.status(500).send('Error de autenticación');
           if (!isMatch) return res.status(400).send('Contraseña incorrecta');
-          db.query(queryl, [user.idUsuario, "El usuario inicio sesion"]);
+          db.query(queryl, [user.idUsuario, "El usuario inicio sesion"], (err, isMatch)=>{
+            if (err) return res.status(500).send('Error de guardado: '+err);
+            if (!isMatch) return res.status(400).send('malguardado: '+isMatch);
+          });
           // Crear token JWT
           const token = jwt.sign({ id: user.idUsuario }, process.env.SECRET_KEY, { expiresIn: '5h' });
           res.status(200).json({ token });
