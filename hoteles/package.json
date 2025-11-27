@@ -4,7 +4,7 @@
   "description": "API para gestión de hoteles en Buenos Aires",
   "main": "server.js",
   "scripts": {
-    "start": "npm start"
+    "start": "node server.js"
   },
   "author": "Tu Nombre",
   "license": "MIT",

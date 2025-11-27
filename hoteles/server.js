@@ -12,7 +12,7 @@ const jwt = require('jsonwebtoken');
 const app = express();
 const port = process.env.PORT || 3000;
 
-mysql://root:zUjOKKfVHAcOEQUBDuISLtnHjPslcCRm@switchyard.proxy.rlwy.net:49441/railway
+
 
 app.use(cors(
   {
@@ -26,10 +26,10 @@ app.use('/images', express.static(path.join(__dirname, 'images')));
 
 // 🔹 Conexión MySQL
 const db = mysql.createConnection({
-  host: process.env.DB_HOST || 'mysql.railway.internal',
-  user: process.env.DB_USER || 'switchyard.proxy.rlwy.net',
-  password: process.env.DB_PASS || 'zUjOKKfVHAcOEQUBDuISLtnHjPslcCRm',
-  database: process.env.DB_NAME || 'hotelesBA'
+  host: process.env.DB_HOST,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASS,
+  database: process.env.DB_NAME
 });
 
 db.connect(err => {
