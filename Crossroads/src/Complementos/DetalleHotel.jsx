@@ -38,20 +38,7 @@ export function DetalleHotel({ID, server}){
         loadHotel();
     }, [ID]);
 
-    useEffect(() =>{
-        async function loadComentarios() {
-            try{
-                const param = new URLSearchParams({idh: ID});
-                const res = await fetch(`${server}/api/Hotel/Comentarios?${param}`);
-                const data = await res.json();
-                setComentaios(data || []);
-            }catch{
-                console.error('Error al cargar Comentarios', err);
-                setComentaios([]);
-            }
-        }
-        loadComentarios();
-    })
+    
 
     return(
         <div id='TargetaD'>

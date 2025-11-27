@@ -10,7 +10,7 @@ import { Historial } from './Complementos/HIstorial.jsx';
 function App() {
   const [count, setCount] = useState(0)
   const [Estado, setEstado] = useState("Inicio")
-  const server = 'http://localhost:3000';
+  const server = 'https://marvelous-respect-production.up.railway.app';
   return (
     <>
       <Barra estado={Estado} setestado={setEstado} server={server}/>

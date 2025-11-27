@@ -16,7 +16,7 @@ const port = process.env.PORT || 3000;
 
 app.use(cors(
   {
-    origin:["http://localhost:5000","http://localhost:5173","http://localhost:5000/register","http://localhost:3000","*"]
+    origin:["http://localhost:5000","http://localhost:5173","http://localhost:5000/register","http://localhost:3000","https://marvelous-respect-production.up.railway.app","*"]
   }
 ));
 app.use(express.static('public'));
