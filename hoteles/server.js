@@ -59,7 +59,7 @@ const transporter = nodemailer.createTransport({
 // Endpoint para iniciar sesión
 app.post('/login', (req, res) => {
   const { email, password } = req.body;
-  const queryl = 'INSERT INTO historial (idUsuario, fechaGuardado, accion, id_hotel) values(?, Now(), ?, 1)'
+  const queryl = 'INSERT INTO Historial (idUsuario, fechaGuardado, accion, id_hotel) values(?, Now(), ?, 1)'
   const query = 'SELECT * FROM usuario WHERE email = ?';
   db.query(query, [email], (err, results) => {
       if (err) return res.status(500).send('Error al realizar la consulta');
@@ -228,7 +228,7 @@ app.get('/api/HistorialU', (req,res) =>{
     if (err) return res.status(401).send('Token inválido');
     
     const query = `SELECT h.idHistorial, h.idUsuario, h.fechaGuardado, h.accion, h.id_hotel as 'idHotel' 
-    FROM historial h 
+    FROM Historial h 
     WHERE idUsuario = ?
     order by h.idHistorial desc`;
     db.query(query, [decoded.id], (err, results) => {
@@ -250,7 +250,7 @@ app.get('/api/HistorialU/Hotel', (req,res) =>{
   jwt.verify(token, process.env.SECRET_KEY, (err, decoded) => {
     if (err) return res.status(401).send('Token inválido');
     
-    const query = 'INSERT INTO historial (idUsuario, fechaGuardado, accion, id_hotel) values(?, Now(), ?, ?)'
+    const query = 'INSERT INTO Historial (idUsuario, fechaGuardado, accion, id_hotel) values(?, Now(), ?, ?)'
     db.query(query, [decoded.id, "El usuario visito un hotel", idh], (err, results) => {
       if (err) return res.status(500).send('Error en la consulta');
       res.status(200).json(results);
