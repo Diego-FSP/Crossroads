@@ -268,4 +268,6 @@ app.get('/api/Hotel/Comentarios', (req,res) =>{
   });
 })
 
-app.listen(port, () => console.log(`🚀 Servidor corriendo en http://localhost:${port}`));
+app.listen(port, "0.0.0.0", () =>
+  console.log(`🚀 Servidor corriendo en PORT ${port}`)
+);
