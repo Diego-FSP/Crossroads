@@ -1,11 +1,9 @@
 {
   "build": {
-    "builder": "NIXPACKS"
+    "builder": "NIXPACKS",
+    "buildCommand": "cd hoteles && npm install"
   },
   "deploy": {
-    "startCommand": "node server.js"
-  },
-  "nixpacks": {
-    "root": "hoteles"
+    "startCommand": "cd hoteles && node server.js"
   }
 }
