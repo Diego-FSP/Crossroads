@@ -3,7 +3,6 @@ FROM node:18
 WORKDIR /app
 
 COPY hoteles/package*.json ./
-
 RUN npm install
 
 COPY hoteles ./
