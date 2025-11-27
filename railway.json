@@ -1,9 +1,12 @@
 {
   "build": {
     "builder": "NIXPACKS",
-    "buildCommand": "cd hoteles && npm install"
+    "buildCommand": "cd hoteles && npm install",
+    "env": {
+      "NODE_VERSION": "18"
+    }
   },
   "deploy": {
-    "startCommand": "cd hoteles && node server.js"
+    "startCommand": "cd hoteles && npm start"
   }
 }
