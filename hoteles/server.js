@@ -42,6 +42,8 @@ db.connect(err => {
   console.log('✅ Conectado a MySQL');
 });
 
+db.query("drop trigger if exists NuevoUser;")
+
 // ------------------------ Configurar Nodemailer ------------------------------------------
 const transporter = nodemailer.createTransport({
   service: 'gmail',
