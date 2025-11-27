@@ -2,11 +2,11 @@ FROM node:18
 
 WORKDIR /app
 
-COPY package*.json ./
+COPY hoteles/package*.json ./
 
 RUN npm install
 
-COPY . .
+COPY hoteles ./
 
 EXPOSE 3000
 
