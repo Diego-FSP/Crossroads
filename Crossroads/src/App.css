@@ -309,9 +309,17 @@ body{
 
 .PaginasCard{
   margin: 50px 33%;
+  margin-left: 44%;
+  border-radius: 3px;
+  display:flex;
+  gap: 10px;
+  font-size: 120%;
+
+
   button{
-    background-color: #ff0040;
+    background-color: #d81546;
     color: #f4d7fc;
+    border: #ad1414 3px solid;
   }
 }
 
