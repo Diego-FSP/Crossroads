@@ -262,7 +262,7 @@ app.get('/api/HistorialU/Hotel', (req,res) =>{
 app.get('/api/Hotel/Comentarios', (req,res) =>{
   const {idh}= req.query;
   const query = `SELECT c.idCalficacion, c.idUsuario, c.id_hotel as "idHotel", c.comentario, c.estrellas, u.nombre , u.email
-    FROM calificacion c
+    FROM Calificacion c
     inner join usuario u on c.idUsuario=u.idUsuario
     where c.id_hotel=${idh}`;
 
