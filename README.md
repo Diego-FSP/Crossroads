@@ -111,3 +111,12 @@ direction RL
     + int CalificacionPromedio
     }
 ```
+
+# Pasos para Instalacion
+
+Dirigirse a hoteles > server.js
+
+Abrir la consola y escribir "cd hoteles" luego "npm install", luego "node server.js"
+
+En otra consola, "cd Cross", "cd Crossroads", "npm install" y "npm run dev"
+
